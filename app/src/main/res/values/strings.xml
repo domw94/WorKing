@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WorKing</string>
+    <string name="working_type_button_text">next</string>
+    <string name="welcome_error_message_fields_empty">Please insert type</string>
 </resources>

@@ -5,19 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorLightGray"
-    tools:context="de.dominikwieners.working.WelcomeActivity">
-
+    tools:context="de.dominikwieners.working.ui.activities.welcome.WelcomeActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/welcome_bu_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/colorAccent"
+        android:background="@drawable/button_rounded_simple"
         android:elevation="8dp"
-        android:text="Button"
-        android:textColor="@color/colorPrimary"
+        android:text="@string/working_type_button_text"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/welcome_textbar"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -70,7 +69,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/welcome_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/welcome_textbar"
@@ -79,17 +78,17 @@
         app:layout_constraintTop_toBottomOf="@+id/welcome_box" />
 
     <android.support.constraint.ConstraintLayout
-        android:orientation="vertical"
         android:id="@+id/welcome_textbar"
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:background="@drawable/bottom_bar"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/welcome_textbar_bu_add"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginBottom="8dp"
@@ -103,7 +102,7 @@
             app:srcCompat="@mipmap/bottom_bar_add_icon" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/welcome_texbar_et_add"
             android:layout_width="0dp"
             android:layout_height="26dp"
             android:layout_marginBottom="8dp"
@@ -115,10 +114,11 @@
             android:hint="add type..."
             android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton"
+            app:layout_constraintEnd_toStartOf="@+id/welcome_textbar_bu_add"
             app:layout_constraintHorizontal_bias="0.937"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.666" />
     </android.support.constraint.ConstraintLayout>
+
 </android.support.constraint.ConstraintLayout>
