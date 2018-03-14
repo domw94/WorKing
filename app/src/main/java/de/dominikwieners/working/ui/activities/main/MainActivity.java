@@ -33,7 +33,6 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        ((wkApplication) getApplication()).getComponent().inject(this);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);

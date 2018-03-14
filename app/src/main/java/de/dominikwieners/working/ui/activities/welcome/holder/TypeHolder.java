@@ -16,6 +16,8 @@ import butterknife.BindView;
 
 public class TypeHolder extends RecyclerView.ViewHolder {
 
+    @BindView(R.id.item_welcome_dot)
+    TextView tvDot;
     @BindView(R.id.item_working_tv_type)
     TextView tvType;
 
@@ -27,6 +29,9 @@ public class TypeHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
+    public TextView getTvDot() {
+        return tvDot;
+    }
     public TextView getTvType() {
         return tvType;
     }

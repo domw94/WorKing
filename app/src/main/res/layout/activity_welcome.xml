@@ -7,18 +7,19 @@
     android:background="@color/colorLightGray"
     tools:context="de.dominikwieners.working.ui.activities.welcome.WelcomeActivity">
 
-    <Button
-        android:id="@+id/welcome_bu_next"
-        android:layout_width="wrap_content"
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/welcome_toolbar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/button_rounded_simple"
-        android:elevation="8dp"
-        android:text="@string/working_type_button_text"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/welcome_textbar"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:background="?attr/colorPrimary"
+        android:elevation="1dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/welcome_box"
@@ -26,11 +27,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/welcome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/welcome_toolbar">
 
         <TextView
             android:id="@+id/welcome_headline_head"
@@ -72,53 +73,26 @@
         android:id="@+id/welcome_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/welcome_textbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_box" />
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/welcome_textbar"
-        android:layout_width="0dp"
-        android:layout_height="64dp"
-        android:background="@drawable/bottom_bar"
-        android:orientation="vertical"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_box">
 
-        <ImageButton
-            android:id="@+id/welcome_textbar_bu_add"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="24dp"
-            android:background="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@mipmap/bottom_bar_add_icon" />
+    </android.support.v7.widget.RecyclerView>
 
-        <EditText
-            android:id="@+id/welcome_texbar_et_add"
-            android:layout_width="0dp"
-            android:layout_height="26dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/transparent"
-            android:ems="10"
-            android:hint="add type..."
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/welcome_textbar_bu_add"
-            app:layout_constraintHorizontal_bias="0.937"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.666" />
-    </android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/welcome_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        app:elevation="8dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@mipmap/icon_add_white" />
 
 </android.support.constraint.ConstraintLayout>

@@ -10,9 +10,7 @@ import de.dominikwieners.working.ui.activities.welcome.WelcomeActivity;
  * Created by dominikwieners on 13.03.18.
  */
 @Singleton
-@Component(modules = {AppModule.class, RoomModule.class})
+@Component(modules = {AppModule.class})
 public interface AppComponent {
-    void inject(MainActivity mainActivity);
 
-    void inject(WelcomeActivity welcomeActivity);
 }

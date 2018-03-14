@@ -17,7 +17,6 @@ public class wkApplication extends Application {
 
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
-                .roomModule(new RoomModule(this))
                 .build();
     }
 

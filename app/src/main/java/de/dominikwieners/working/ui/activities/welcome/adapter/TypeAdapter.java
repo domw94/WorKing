@@ -1,8 +1,8 @@
 package de.dominikwieners.working.ui.activities.welcome.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +12,6 @@ import java.util.List;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.data.Type;
 import de.dominikwieners.working.presenter.WelcomePresenter;
-import de.dominikwieners.working.repository.TypeDatabase;
 import de.dominikwieners.working.ui.activities.welcome.holder.TypeHolder;
 
 /**
@@ -22,13 +21,14 @@ import de.dominikwieners.working.ui.activities.welcome.holder.TypeHolder;
 public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
 
     private List<Type> typeList;
-    private TypeDatabase db;
-    WelcomePresenter presenter;
+    private WelcomePresenter presenter;
+    private Context context;
 
-    public TypeAdapter(WelcomePresenter presenter, TypeDatabase db, List<Type> typeList) {
+
+    public TypeAdapter(WelcomePresenter presenter, Context context, List<Type> typeList) {
         this.presenter = presenter;
-        this.db = db;
         this.typeList = typeList;
+        this.context = context;
     }
 
     @Override
@@ -42,12 +42,13 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
     public void onBindViewHolder(TypeHolder holder, int position) {
         final Type type = typeList.get(position);
         holder.getTvType().setText(type.getType());
+        holder.getTvDot().setText(Html.fromHtml("&#8226;"));
+        holder.getTvDot().setTextColor(type.getColor());
         holder.getBuType().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 typeList.remove(type);
-                db.getTypeDao().delete(type);
-                presenter.updateShowNextAction(typeList);
+                presenter.delete(context, type);
                 notifyDataSetChanged();
             }
         });
@@ -57,6 +58,5 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
     public int getItemCount() {
         return typeList.size();
     }
-
 
 }
