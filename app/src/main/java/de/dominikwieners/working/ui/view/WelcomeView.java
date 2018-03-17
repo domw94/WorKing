@@ -16,8 +16,4 @@ public interface WelcomeView extends MvpView {
     void showEmptyFieldMessage();
 
     void showIsMemeberMessage(Type member);
-
-    void showNextButton();
-
-    void hideNextButton();
 }

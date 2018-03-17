@@ -1,6 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">WorKing</string>
-    <string name="working_type_button_text">next</string>
-    <string name="welcome_error_message_fields_empty">Please insert type</string>
     <string name="app_welcome">Welcome</string>
+    <string name="welcome_option_menu_next">next</string>
+    <string name="welcome_box_headline">Welcome to WorKing</string>
+    <string name="welcome_box_content">Please select your types of work</string>
+    <string name="welcome_dialog_positiv">save</string>
+    <string name="welcome_dialog_negativ">cancle</string>
+    <string name="welcome_dialog_headline">Add Type</string>
+    <string name="welcome_dialog_hint">My working type...</string>
+    <string name="welcome_error_message_fields_empty">Please insert working type</string>
 </resources>

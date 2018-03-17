@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.os.Bundle;
@@ -29,14 +29,19 @@ import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 import java.util.List;
 
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.dominikwieners.working.Config;
+import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.data.Type;
 import de.dominikwieners.working.presenter.WelcomePresenter;
 import de.dominikwieners.working.ui.activities.welcome.adapter.TypeAdapter;
 import de.dominikwieners.working.ui.view.WelcomeView;
+import de.dominikwieners.working.di.wkApplication;
 import es.dmoral.toasty.Toasty;
 
 public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> implements WelcomeView {
@@ -53,9 +58,16 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
     @BindView(R.id.welcome_fab)
     FloatingActionButton fab;
 
+    @Inject
+    SharedPreferences sharedPreferences;
+
+    @Inject
+    Navigator navigator;
+
+    private int mState;
+
     List<Type> typeList;
 
-    private boolean donext = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +76,7 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_welcome);
+        ((wkApplication) getApplication()).getComponent().inject(this);
     }
 
 
@@ -84,7 +97,7 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
 
     public void showTypeDialog() {
         LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
-        View view = layoutInflater.inflate(R.layout.type_dialog, null);
+        View view = layoutInflater.inflate(R.layout.welcome_fragment_dialog, null);
 
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(WelcomeActivity.this);
         alertDialogBuilderUserInput.setView(view);
@@ -96,23 +109,23 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
                 .setOnKeyListener(new DialogInterface.OnKeyListener() {
                     @Override
                     public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                        if (keyCode == KeyEvent.KEYCODE_BACK) {
-                            dialog.dismiss();
-                        }
+                        getPresenter().goBackFromDialog(dialog, keyCode);
                         return true;
                     }
                 })
-                .setPositiveButton("save", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.welcome_dialog_positiv), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String text = etType.getText().toString();
-                        Type type = new Type(presenter.getRandomMaterialColor("400", getApplicationContext()), text);
-                        typeList.add(type);
-                        getPresenter().insert(getApplicationContext(), type);
+                        getPresenter().addNewItemToList(text, typeList, getApplicationContext());
+
+                        mState = Config.SHOW_MENU;
+                        invalidateOptionsMenu();
+
                         recycler.getAdapter().notifyDataSetChanged();
                     }
                 })
-                .setNegativeButton("cancle", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.welcome_dialog_negativ), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -127,6 +140,14 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
     @Override
     protected void onResume() {
         typeList = getPresenter().loadData(this);
+
+        if (typeList.isEmpty())
+            mState = Config.HIDE_MENU;
+        else {
+            mState = Config.SHOW_MENU;
+        }
+        invalidateOptionsMenu();
+
         recycler.setAdapter(new TypeAdapter(getPresenter(), getApplicationContext(), typeList));
         recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recycler.hasFixedSize();
@@ -145,6 +166,8 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.welcome_menu, menu);
+        getPresenter().setStateOfNextItem(menu, mState);
+
         return true;
     }
 
@@ -152,19 +175,18 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.welcome_menu_next:
-                Toast.makeText(getApplicationContext(), "Next", Toast.LENGTH_LONG).show();
+
+                SharedPreferences.Editor prefEditor = sharedPreferences.edit();
+                prefEditor.putInt("WELCOME_DONE", 1);
+                prefEditor.commit();
+
+                navigator.showMainActivity(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.welcome_menu_next);
-        item.setEnabled(donext);
-        return true;
-    }
 
     @Override
     public void showWelcome() {
@@ -186,16 +208,5 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
 
         Toasty.error(getApplicationContext(), memeber.getType() + " is member of your types", Toast.LENGTH_LONG, false).show();
     }
-
-    @Override
-    public void showNextButton() {
-
-    }
-
-    @Override
-    public void hideNextButton() {
-
-    }
-
 
 }

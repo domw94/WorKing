@@ -1,4 +1,4 @@
-package de.dominikwieners.working.di;
+package de.dominikwieners.working.di.modul;
 
 import android.app.Application;
 

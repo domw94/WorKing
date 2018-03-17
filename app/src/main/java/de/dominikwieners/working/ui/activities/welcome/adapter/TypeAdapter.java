@@ -34,7 +34,7 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeHolder> {
     @Override
     public TypeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_working_type, parent, false);
+                .inflate(R.layout.welcome_item_working_type, parent, false);
         return new TypeHolder(view);
     }
 

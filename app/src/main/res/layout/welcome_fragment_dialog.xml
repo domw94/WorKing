@@ -13,7 +13,7 @@
         android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif-medium"
         android:lineSpacingExtra="8sp"
-        android:text="Add Note"
+        android:text="@string/welcome_dialog_headline"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
         android:textStyle="normal" />
@@ -24,10 +24,10 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:gravity="top"
-        android:hint="@string/working_type_button_text"
+        android:hint="@string/welcome_dialog_hint"
         android:inputType="textCapSentences|textMultiLine"
         android:lines="4"
-        android:textColorHint="@color/colorLightGrayType"
+        android:textColorHint="@color/colorLightGrayText"
         android:textSize="18sp" />
 
 </LinearLayout>
