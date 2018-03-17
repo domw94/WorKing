@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.welcome.WelcomeActivity"></activity>
+        <activity android:name=".ui.activities.welcome.WelcomeActivity" />
+        <activity android:name=".ui.activities.working.AddWorkingActivity"></activity>
     </application>
 
 </manifest>

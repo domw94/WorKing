@@ -20,6 +20,9 @@ import de.dominikwieners.working.ui.view.MainView;
  */
 
 public class MainPresenter extends MvpBasePresenter<MainView> {
+
+    private int currentPagerPage;
+
     public List<Type> loadData(TypeDatabase db) {
         return db.getTypeDao().getAll();
     }
@@ -31,5 +34,13 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     public int getCurrentItemByMonth() {
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         return calendar.get(Calendar.MONTH);
+    }
+
+    public void setCurrentPagerPage(int currentPagerPage) {
+        this.currentPagerPage = currentPagerPage;
+    }
+
+    public int getCurrentPagerPosition() {
+        return currentPagerPage;
     }
 }

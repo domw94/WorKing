@@ -10,4 +10,5 @@
     <string name="welcome_dialog_headline">Add Type</string>
     <string name="welcome_dialog_hint">My working type...</string>
     <string name="welcome_error_message_fields_empty">Please insert working type</string>
+    <string name="app_add_working">add working hours</string>
 </resources>

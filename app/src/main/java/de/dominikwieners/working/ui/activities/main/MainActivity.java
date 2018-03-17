@@ -15,6 +15,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.dominikwieners.working.Config;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.di.wkApplication;
@@ -47,7 +49,10 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
+
+        if (getIntent().getExtras() == null) {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -81,6 +86,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> {
                 if (positionOffset > 0) {
                     fab.hide();
                 }
+                getPresenter().setCurrentPagerPage(position);
             }
 
             @Override
@@ -98,6 +104,12 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    @OnClick(R.id.main_fab)
+    public void onClickFab() {
+        int currentPosition = presenter.getCurrentPagerPosition();
+        String currentMonth = viewPager.getAdapter().getPageTitle(presenter.getCurrentPagerPosition()).toString();
+        navigator.showAddWorkingActivityWithExtras(this, currentMonth, currentPosition);
+    }
 
     @Override
     protected void onStart() {
@@ -105,6 +117,14 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> {
             navigator.showWelcomeActivity(this);
         }
         super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (getIntent().getExtras() != null) {
+            viewPager.setCurrentItem(getIntent().getExtras().getInt(Config.CURRENT_PAGER_POS));
+        }
     }
 
     @NonNull

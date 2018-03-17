@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="96dp"
+    android:layout_height="80dp"
     android:layout_marginHorizontal="8dp"
     android:layout_marginVertical="4dp"
-    android:background="@drawable/item_working_type">
+    android:background="@drawable/item_working">
 
 
     <TextView
@@ -59,6 +59,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/item_working_type_cancle" />
+        app:srcCompat="@drawable/item_working_cancle" />
 
 </android.support.constraint.ConstraintLayout>

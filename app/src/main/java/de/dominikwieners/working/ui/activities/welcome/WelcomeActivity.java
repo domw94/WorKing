@@ -91,7 +91,7 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
     }
 
     @OnClick(R.id.welcome_fab)
-    public void clickFab() {
+    public void onClickFab() {
         showTypeDialog();
     }
 
