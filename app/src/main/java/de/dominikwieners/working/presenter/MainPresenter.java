@@ -1,5 +1,6 @@
 package de.dominikwieners.working.presenter;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
@@ -23,6 +24,8 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
 
     private int currentPagerPage;
 
+    private int selctedMonthPosition;
+
     public List<Type> loadData(TypeDatabase db) {
         return db.getTypeDao().getAll();
     }
@@ -42,5 +45,13 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
 
     public int getCurrentPagerPosition() {
         return currentPagerPage;
+    }
+
+
+    public int setSelectedMonthPosition(Intent intent) {
+        if (intent.hasExtra(Config.CURRENT_PAGER_POS)) {
+            return intent.getExtras().getInt(Config.CURRENT_PAGER_POS);
+        }
+        return getCurrentItemByMonth();
     }
 }

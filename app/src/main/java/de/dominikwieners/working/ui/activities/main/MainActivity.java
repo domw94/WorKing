@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.dominikwieners.working.Config;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.di.wkApplication;
@@ -45,6 +44,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> {
     @Inject
     Navigator navigator;
 
+    private String[] months;
 
 
     @Override
@@ -53,6 +53,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> {
         if (getIntent().getExtras() == null) {
             setTheme(R.style.AppTheme);
         }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -63,23 +64,14 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> {
         ((wkApplication) getApplication()).getComponent().inject(this);
 
         MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment("January", new MonthFragment());
-        adapter.addFragment("February", new MonthFragment());
-        adapter.addFragment("March", new MonthFragment());
-        adapter.addFragment("April", new MonthFragment());
-        adapter.addFragment("May", new MonthFragment());
-        adapter.addFragment("June", new MonthFragment());
-        adapter.addFragment("July", new MonthFragment());
-        adapter.addFragment("August", new MonthFragment());
-        adapter.addFragment("September", new MonthFragment());
-        adapter.addFragment("October", new MonthFragment());
-        adapter.addFragment("November", new MonthFragment());
-        adapter.addFragment("December", new MonthFragment());
 
+        months = getResources().getStringArray(R.array.months);
+        for (int i = 0; i < months.length; i++) {
+            adapter.addFragment(months[i], new MonthFragment());
+        }
 
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(getPresenter().getCurrentItemByMonth(), true);
-
+        viewPager.setCurrentItem(presenter.setSelectedMonthPosition(getIntent()), true);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -96,12 +88,17 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.d("ScrollStateCh s", Integer.toString(state));
                 fab.show();
             }
         });
 
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @NonNull
+    @Override
+    public MainPresenter createPresenter() {
+        return new MainPresenter();
     }
 
     @OnClick(R.id.main_fab)
@@ -119,19 +116,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> {
         super.onStart();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (getIntent().getExtras() != null) {
-            viewPager.setCurrentItem(getIntent().getExtras().getInt(Config.CURRENT_PAGER_POS));
-        }
-    }
 
-    @NonNull
-    @Override
-    public MainPresenter createPresenter() {
-        return new MainPresenter();
-    }
 
 
 }

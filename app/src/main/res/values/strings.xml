@@ -11,4 +11,18 @@
     <string name="welcome_dialog_hint">My working type...</string>
     <string name="welcome_error_message_fields_empty">Please insert working type</string>
     <string name="app_add_working">add working hours</string>
+    <string-array name="months">
+        <item>Janurary</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
 </resources>
