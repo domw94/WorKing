@@ -38,13 +38,13 @@ import de.dominikwieners.working.Config;
 import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.data.Type;
-import de.dominikwieners.working.presenter.WelcomePresenter;
+import de.dominikwieners.working.presenter.ActivityWelcomePresenter;
 import de.dominikwieners.working.ui.activities.welcome.adapter.TypeAdapter;
-import de.dominikwieners.working.ui.view.WelcomeView;
+import de.dominikwieners.working.ui.view.ActivityWelcomeView;
 import de.dominikwieners.working.di.wkApplication;
 import es.dmoral.toasty.Toasty;
 
-public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> implements WelcomeView {
+public class WelcomeActivity extends MvpActivity<ActivityWelcomeView, ActivityWelcomePresenter> implements ActivityWelcomeView {
 
     @BindView(R.id.welcome_toolbar)
     Toolbar toolbar;
@@ -82,8 +82,8 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
 
     @NonNull
     @Override
-    public WelcomePresenter createPresenter() {
-        return new WelcomePresenter();
+    public ActivityWelcomePresenter createPresenter() {
+        return new ActivityWelcomePresenter();
     }
 
     public Activity getActivity(Context context) {
@@ -97,7 +97,7 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
 
     public void showTypeDialog() {
         LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
-        View view = layoutInflater.inflate(R.layout.welcome_fragment_dialog, null);
+        View view = layoutInflater.inflate(R.layout.fragment_welcome_dialog, null);
 
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(WelcomeActivity.this);
         alertDialogBuilderUserInput.setView(view);
@@ -118,7 +118,6 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
                     public void onClick(DialogInterface dialog, int which) {
                         String text = etType.getText().toString();
                         getPresenter().addNewItemToList(text, typeList, getApplicationContext());
-
                         mState = Config.SHOW_MENU;
                         invalidateOptionsMenu();
 
@@ -139,7 +138,7 @@ public class WelcomeActivity extends MvpActivity<WelcomeView, WelcomePresenter> 
 
     @Override
     protected void onResume() {
-        typeList = getPresenter().loadData(this);
+        typeList = getPresenter().loadTypeData(this);
 
         if (typeList.isEmpty())
             mState = Config.HIDE_MENU;

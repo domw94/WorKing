@@ -59,10 +59,8 @@ public class Navigator {
         activity.finish();
     }
 
-    public void showAddWorkingActivityWithExtras(Activity activity, String month, int position) {
+    public void showAddWorkingActivityWithExtras(Activity activity) {
         Intent intent = new Intent(activity, AddWorkingActivity.class);
-        intent.putExtra(Config.CURRENT_MONTH, month);
-        intent.putExtra(Config.CURRENT_PAGER_POS, position);
         activity.startActivity(intent);
         activity.finish();
     }

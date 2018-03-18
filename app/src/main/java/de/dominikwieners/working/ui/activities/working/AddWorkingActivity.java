@@ -1,35 +1,42 @@
 package de.dominikwieners.working.ui.activities.working;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.dominikwieners.working.Config;
 import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.R;
-import de.dominikwieners.working.data.Type;
+import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.di.wkApplication;
-import de.dominikwieners.working.presenter.AddWorkingPresenter;
+import de.dominikwieners.working.presenter.ActivityAddWorkingPresenter;
 import de.dominikwieners.working.ui.activities.working.fragments.DatePickerFragment;
-import de.dominikwieners.working.ui.view.AddWorkingView;
+import de.dominikwieners.working.ui.view.ActivityAddWorkingView;
 
-public class AddWorkingActivity extends MvpActivity<AddWorkingView, AddWorkingPresenter> implements AddWorkingView, DatePickerDialog.OnDateSetListener {
+public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, ActivityAddWorkingPresenter> implements ActivityAddWorkingView, DatePickerDialog.OnDateSetListener {
 
     @BindView(R.id.add_working_toolbar)
     Toolbar toolbar;
@@ -43,8 +50,30 @@ public class AddWorkingActivity extends MvpActivity<AddWorkingView, AddWorkingPr
     @BindView(R.id.add_working_sp_type)
     Spinner spType;
 
+    @BindView(R.id.add_working_et_from)
+    EditText etFrom;
+
+    @BindView(R.id.add_working_et_until)
+    EditText etUntil;
+
+    @BindView(R.id.add_working_bu_save)
+    Button buSave;
+
     @Inject
     Navigator navigator;
+
+    private String selectedDayOfWeek;
+    private int selectedDay;
+    private int selectedMonth;
+    private int selectedYear;
+
+    private int selectedStartHour;
+    private int selectedStartMin;
+
+    private int selectedEndHour;
+    private int selectedEndMin;
+
+    private int selectedTodaysMin;
 
     private String[] months;
 
@@ -61,12 +90,25 @@ public class AddWorkingActivity extends MvpActivity<AddWorkingView, AddWorkingPr
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((wkApplication) getApplication()).getComponent().inject(this);
         months = getResources().getStringArray(R.array.months);
-        String month = getIntent().getExtras().getString(Config.CURRENT_MONTH);
-        pagerPos = getIntent().getExtras().getInt(Config.CURRENT_PAGER_POS);
-        tvMonth.setText(month);
 
-        etDate.setText(presenter.getCurentDate());
+        tvMonth.setText(months[presenter.getCurrentMonth()]);
+
+        pagerPos = presenter.getCurrentMonth();
+
+        selectedDayOfWeek = presenter.getGetDayOfWeek();
+        selectedDay = presenter.getCurrentDay();
+        selectedMonth = presenter.getCurrentMonth();
+        selectedYear = presenter.getCurentYear();
+
+        etDate.setText(presenter.getCalendarFormat(selectedDay, selectedMonth, selectedYear));
         etDate.setFocusable(false);
+        etDate.setFocusableInTouchMode(false);
+
+        etFrom.setFocusable(false);
+        etFrom.setFocusableInTouchMode(false);
+
+        etUntil.setFocusable(false);
+        etUntil.setFocusableInTouchMode(false);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, presenter.getTypeArray(getApplicationContext()));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -75,8 +117,8 @@ public class AddWorkingActivity extends MvpActivity<AddWorkingView, AddWorkingPr
 
     @NonNull
     @Override
-    public AddWorkingPresenter createPresenter() {
-        return new AddWorkingPresenter();
+    public ActivityAddWorkingPresenter createPresenter() {
+        return new ActivityAddWorkingPresenter();
     }
 
     @Override
@@ -103,8 +145,63 @@ public class AddWorkingActivity extends MvpActivity<AddWorkingView, AddWorkingPr
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        etDate.setText(dayOfMonth + "." + (month + 1) + "." + year);
+        etDate.setText(presenter.getCalendarFormat(dayOfMonth, month, year));
         tvMonth.setText(months[month]);
+        selectedDay = dayOfMonth;
+        selectedMonth = month;
+        selectedYear = year;
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE", Locale.GERMAN);
+        Date date = new Date(selectedYear, selectedMonth, selectedDay - 1);
+        selectedDayOfWeek = simpleDateFormat.format(date);
+
         pagerPos = month;
     }
+
+
+    @OnClick(R.id.add_working_et_from)
+    public void onClickFrom() {
+        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+        int h = c.get(Calendar.HOUR_OF_DAY);
+        int m = c.get(Calendar.MINUTE);
+        TimePickerDialog timePickerDialog;
+        timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                selectedStartHour = hourOfDay;
+                selectedStartMin = minute;
+                etFrom.setText(presenter.getTimeFormat(selectedStartHour, selectedStartMin));
+            }
+        }, h, m, true);
+        timePickerDialog.show();
+    }
+
+    @OnClick(R.id.add_working_et_until)
+    public void onClickUntil() {
+        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+        int h = 18;
+        int m = 0;
+        TimePickerDialog timePickerDialog;
+        timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                selectedEndHour = hourOfDay;
+                selectedEndMin = minute;
+                etUntil.setText(presenter.getTimeFormat(selectedEndHour, selectedEndMin));
+            }
+        }, h, m, true);
+        timePickerDialog.show();
+    }
+
+
+    @OnClick(R.id.add_working_bu_save)
+    public void onClickSave() {
+        String workingType = spType.getItemAtPosition(spType.getSelectedItemPosition()).toString();
+        selectedTodaysMin = presenter.getTodaysMin(selectedStartHour, selectedStartMin, selectedEndHour, selectedEndMin);
+        Toast.makeText(this, Integer.toString(selectedTodaysMin), Toast.LENGTH_LONG).show();
+        Work work = new Work(workingType, selectedDayOfWeek, selectedDay, selectedMonth, selectedYear, selectedStartHour, selectedStartMin, selectedEndHour, selectedEndMin, 1);
+        presenter.insertWorkData(this, work);
+        navigator.showMainActivityWithPosition(this, pagerPos);
+    }
+
 }

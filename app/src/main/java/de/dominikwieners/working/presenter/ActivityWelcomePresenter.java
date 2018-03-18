@@ -1,16 +1,11 @@
 package de.dominikwieners.working.presenter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 
@@ -19,15 +14,14 @@ import java.util.List;
 import de.dominikwieners.working.Config;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.data.Type;
-import de.dominikwieners.working.repository.TypeDatabase;
-import de.dominikwieners.working.ui.activities.welcome.WelcomeActivity;
-import de.dominikwieners.working.ui.view.WelcomeView;
+import de.dominikwieners.working.repository.WorkingDatabase;
+import de.dominikwieners.working.ui.view.ActivityWelcomeView;
 
 /**
  * Created by dominikwieners on 13.03.18.
  */
 
-public class WelcomePresenter extends MvpBasePresenter<WelcomeView> {
+public class ActivityWelcomePresenter extends MvpBasePresenter<ActivityWelcomeView> {
 
     /**
      * Load Type data from Room db
@@ -35,8 +29,8 @@ public class WelcomePresenter extends MvpBasePresenter<WelcomeView> {
      * @param context
      * @return
      */
-    public List<Type> loadData(Context context) {
-        return TypeDatabase
+    public List<Type> loadTypeData(Context context) {
+        return WorkingDatabase
                 .getInstance(context)
                 .getTypeDao()
                 .getAll();
@@ -48,8 +42,8 @@ public class WelcomePresenter extends MvpBasePresenter<WelcomeView> {
      * @param context
      * @param type
      */
-    public void delete(Context context, Type type) {
-        TypeDatabase.getInstance(context).getTypeDao().delete(type);
+    public void deleteTypeData(Context context, Type type) {
+        WorkingDatabase.getInstance(context).getTypeDao().delete(type);
     }
 
     /**
@@ -58,8 +52,8 @@ public class WelcomePresenter extends MvpBasePresenter<WelcomeView> {
      * @param context
      * @param addedType
      */
-    public void insert(Context context, Type addedType) {
-        TypeDatabase.getInstance(context).getTypeDao().insertAll(addedType);
+    public void insertTypeData(Context context, Type addedType) {
+        WorkingDatabase.getInstance(context).getTypeDao().insertAll(addedType);
     }
 
     /**
@@ -119,9 +113,9 @@ public class WelcomePresenter extends MvpBasePresenter<WelcomeView> {
     }
 
     public void addNewItemToList(String text, List<Type> typeList, Context context) {
-        Type type = new Type(getRandomMaterialColor("400", context), text);
+        Type type = new Type(text);
         typeList.add(type);
-        insert(context, type);
+        insertTypeData(context, type);
     }
 
 }

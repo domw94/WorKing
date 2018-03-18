@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WorKing</string>
+    <string name="app_welcome">Willkommen</string>
+    <string name="welcome_option_menu_next">weiter</string>
+    <string name="welcome_box_headline">Willkommen bei WorKing</string>
+    <string name="welcome_box_content">Bitte wähle deine Arbeitsarten aus</string>
+    <string name="welcome_dialog_positiv">speichern</string>
+    <string name="welcome_dialog_negativ">abbrechen</string>
+    <string name="welcome_dialog_headline">Arbeitsart hinzufügen</string>
+    <string name="welcome_dialog_hint">Meine Arbeitsart</string>
+    <string name="welcome_error_message_fields_empty">Bitte geben Sie eine Arbeitsart ein</string>
+    <string name="app_add_working">Strunden hinzufügen</string>
+    <string name="add_working_tv_from">ab:</string>
+    <string name="add_working_tv_until">bis:</string>
+    <string-array name="months">
+        <item>Januar</item>
+        <item>Februar</item>
+        <item>März</item>
+        <item>April</item>
+        <item>Mai</item>
+        <item>Juni</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>Oktober</item>
+        <item>November</item>
+        <item>Dezember</item>
+    </string-array>
+    <string name="add_working_button_save">hinzufügen</string>
+</resources>

@@ -19,7 +19,6 @@ import de.dominikwieners.working.R;
 
 public class DatePickerFragment extends DialogFragment {
 
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Calendar c = Calendar.getInstance(TimeZone.getDefault());

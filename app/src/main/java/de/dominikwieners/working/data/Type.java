@@ -16,14 +16,11 @@ public class Type {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo(name = "color")
-    private int color;
-
     @ColumnInfo(name = "type")
     private String type;
 
-    public Type(int color, String type) {
-        this.color = color;
+    public Type(String type) {
+
         this.type = type;
     }
 
@@ -34,14 +31,6 @@ public class Type {
 
     public void setId(@NonNull int id) {
         this.id = id;
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
     }
 
     public String getType() {

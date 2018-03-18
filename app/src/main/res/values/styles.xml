@@ -13,4 +13,9 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
+    <style name="WkButton" parent="ThemeOverlay.AppCompat">
+        <item name="android:background">@color/colorAccent</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 </resources>

@@ -5,12 +5,14 @@
     <string name="welcome_option_menu_next">next</string>
     <string name="welcome_box_headline">Welcome to WorKing</string>
     <string name="welcome_box_content">Please select your types of work</string>
-    <string name="welcome_dialog_positiv">save</string>
     <string name="welcome_dialog_negativ">cancle</string>
     <string name="welcome_dialog_headline">Add Type</string>
     <string name="welcome_dialog_hint">My working type...</string>
     <string name="welcome_error_message_fields_empty">Please insert working type</string>
     <string name="app_add_working">add working hours</string>
+    <string name="add_working_tv_from">from:</string>
+    <string name="add_working_tv_until">until:</string>
+    <string name="add_working_button_save">save</string>
     <string-array name="months">
         <item>Janurary</item>
         <item>February</item>
@@ -25,4 +27,5 @@
         <item>November</item>
         <item>December</item>
     </string-array>
+    <string name="welcome_dialog_positiv">save</string>
 </resources>

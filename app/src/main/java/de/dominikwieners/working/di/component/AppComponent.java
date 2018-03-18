@@ -6,6 +6,7 @@ import dagger.Component;
 import de.dominikwieners.working.di.modul.AppModule;
 import de.dominikwieners.working.di.modul.StorageModule;
 import de.dominikwieners.working.ui.activities.main.MainActivity;
+import de.dominikwieners.working.ui.activities.main.fragments.MonthFragment;
 import de.dominikwieners.working.ui.activities.welcome.WelcomeActivity;
 import de.dominikwieners.working.ui.activities.working.AddWorkingActivity;
 
@@ -17,6 +18,7 @@ import de.dominikwieners.working.ui.activities.working.AddWorkingActivity;
 public interface AppComponent {
     void inject(MainActivity mainActivity);
     void inject(WelcomeActivity welcomeActivity);
-
     void inject(AddWorkingActivity addWorkingActivity);
+
+    void inject(MonthFragment monthFragment);
 }

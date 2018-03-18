@@ -12,6 +12,11 @@ public class Config {
     public static final String CURRENT_MONTH = "CURRENT_MONTH";
     public static final String CURRENT_PAGER_POS = "CURRENT_PAGER_POS";
 
+    //Bundles
+    public static final String WORK_ITEM_LIST = "WORK_ITEM_LIST";
+
+
+
     //state of next button in option menu
     public static final int HIDE_MENU = 0;
     public static final int SHOW_MENU = 1;
