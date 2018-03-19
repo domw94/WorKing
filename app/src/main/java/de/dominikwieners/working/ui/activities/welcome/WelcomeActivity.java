@@ -117,11 +117,12 @@ public class WelcomeActivity extends MvpActivity<ActivityWelcomeView, ActivityWe
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String text = etType.getText().toString();
-                        getPresenter().addNewItemToList(text, typeList, getApplicationContext());
+                        Type type = new Type(text);
+                        presenter.insertTypeData(getApplicationContext(), type);
+                        typeList = presenter.loadTypeData(getApplicationContext());
                         mState = Config.SHOW_MENU;
                         invalidateOptionsMenu();
-
-                        recycler.getAdapter().notifyDataSetChanged();
+                        recycler.setAdapter(new TypeAdapter(getPresenter(), getApplicationContext(), typeList));
                     }
                 })
                 .setNegativeButton(getString(R.string.welcome_dialog_negativ), new DialogInterface.OnClickListener() {

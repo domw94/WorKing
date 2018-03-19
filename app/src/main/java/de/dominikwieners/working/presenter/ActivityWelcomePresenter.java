@@ -112,10 +112,5 @@ public class ActivityWelcomePresenter extends MvpBasePresenter<ActivityWelcomeVi
         }
     }
 
-    public void addNewItemToList(String text, List<Type> typeList, Context context) {
-        Type type = new Type(text);
-        typeList.add(type);
-        insertTypeData(context, type);
-    }
 
 }

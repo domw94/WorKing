@@ -20,4 +20,9 @@ public interface TypeDao {
 
     @Delete
     void delete(Type type);
+
+    @Query("DELETE FROM type where id = :uid")
+    void deleteById(int uid);
+
+
 }
