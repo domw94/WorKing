@@ -1,10 +1,14 @@
 package de.dominikwieners.working.ui.activities.main.adapter;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +28,13 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkHolder> {
 
     private FragmentWorkPresenter presenter;
     private ArrayList<Work> typeList;
+    private Context context;
 
-    public WorkAdapter(FragmentWorkPresenter presenter, Bundle bundle) {
-        this.typeList = (ArrayList<Work>) bundle.getSerializable(Config.WORK_ITEM_LIST);
+    public WorkAdapter(FragmentWorkPresenter presenter, Context context, Bundle bundle) {
         this.presenter = presenter;
+        this.context = context;
+        this.typeList = (ArrayList<Work>) bundle.getSerializable(Config.WORK_ITEM_LIST);
+
     }
 
     @Override
@@ -38,12 +45,36 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkHolder> {
     }
 
     @Override
-    public void onBindViewHolder(WorkHolder holder, int position) {
-        Work work = typeList.get(position);
+    public void onBindViewHolder(final WorkHolder holder, int position) {
+        final Work work = typeList.get(position);
         holder.getTvDate().setText(presenter.getDateFromatWidthDay(work.getDayOfWeek(), work.getDay(), work.getMonth(), work.getYear()));
         holder.getTvType().setText(work.getWorkType());
         holder.getTvBegin().setText(presenter.getTimeFormat(work.getStartHour(), work.getStartMin()));
         holder.getTvEnd().setText(presenter.getTimeFormat(work.getEndHour(), work.getEndMin()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(holder.itemView.getContext());
+                alert.setTitle("Delete enry");
+                alert.setMessage("Are you sure you want to delete?");
+                alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        presenter.deleteWorkData(work, context);
+                        typeList.remove(work);
+                        notifyDataSetChanged();
+                    }
+                });
+                alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alert.show();
+            }
+        });
     }
 
     @Override

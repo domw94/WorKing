@@ -28,4 +28,7 @@
         <item>December</item>
     </string-array>
     <string name="welcome_dialog_positiv">save</string>
+    <string name="error_times_incorrect">start or end time incorrect</string>
+    <string name="add_working_start_hint">06.00 Uhr</string>
+    <string name="add_working_end_hint">18.00 Uhr</string>
 </resources>

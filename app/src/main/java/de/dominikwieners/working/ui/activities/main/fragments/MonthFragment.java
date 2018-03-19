@@ -51,7 +51,7 @@ public class MonthFragment extends MvpFragment<FragmentWorkView, FragmentWorkPre
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_month, container, false);
         ButterKnife.bind(this, view);
-        recycler.setAdapter(new WorkAdapter(presenter, getArguments()));
+        recycler.setAdapter(new WorkAdapter(presenter, getActivity().getApplicationContext(), getArguments()));
         recycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recycler.addItemDecoration(new DividerItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
         return view;

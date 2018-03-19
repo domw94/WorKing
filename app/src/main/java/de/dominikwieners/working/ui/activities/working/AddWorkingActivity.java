@@ -35,6 +35,7 @@ import de.dominikwieners.working.di.wkApplication;
 import de.dominikwieners.working.presenter.ActivityAddWorkingPresenter;
 import de.dominikwieners.working.ui.activities.working.fragments.DatePickerFragment;
 import de.dominikwieners.working.ui.view.ActivityAddWorkingView;
+import es.dmoral.toasty.Toasty;
 
 public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, ActivityAddWorkingPresenter> implements ActivityAddWorkingView, DatePickerDialog.OnDateSetListener {
 
@@ -104,6 +105,9 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
         etDate.setFocusable(false);
         etDate.setFocusableInTouchMode(false);
 
+        selectedStartHour = presenter.getHour();
+        selectedStartMin = presenter.getHour();
+        etFrom.setText(presenter.getTimeFormat(selectedStartHour, selectedStartMin));
         etFrom.setFocusable(false);
         etFrom.setFocusableInTouchMode(false);
 
@@ -198,10 +202,13 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
     public void onClickSave() {
         String workingType = spType.getItemAtPosition(spType.getSelectedItemPosition()).toString();
         selectedTodaysMin = presenter.getTodaysMin(selectedStartHour, selectedStartMin, selectedEndHour, selectedEndMin);
-        Toast.makeText(this, Integer.toString(selectedTodaysMin), Toast.LENGTH_LONG).show();
-        Work work = new Work(workingType, selectedDayOfWeek, selectedDay, selectedMonth, selectedYear, selectedStartHour, selectedStartMin, selectedEndHour, selectedEndMin, 1);
-        presenter.insertWorkData(this, work);
-        navigator.showMainActivityWithPosition(this, pagerPos);
+        if (selectedTodaysMin > 0) {
+            Work work = new Work(workingType, selectedDayOfWeek, selectedDay, selectedMonth, selectedYear, selectedStartHour, selectedStartMin, selectedEndHour, selectedEndMin, 1);
+            presenter.insertWorkData(this, work);
+            navigator.showMainActivityWithPosition(this, pagerPos);
+        } else {
+            Toasty.error(getApplicationContext(), getString(R.string.error_times_incorrect), Toast.LENGTH_LONG, false).show();
+        }
     }
 
 }

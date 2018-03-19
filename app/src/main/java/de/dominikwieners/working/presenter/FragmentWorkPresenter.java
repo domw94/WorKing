@@ -1,7 +1,13 @@
 package de.dominikwieners.working.presenter;
 
+import android.content.Context;
+
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 
+import java.util.List;
+
+import de.dominikwieners.working.data.Work;
+import de.dominikwieners.working.repository.WorkingDatabase;
 import de.dominikwieners.working.ui.view.FragmentWorkView;
 
 /**
@@ -9,6 +15,19 @@ import de.dominikwieners.working.ui.view.FragmentWorkView;
  */
 
 public class FragmentWorkPresenter extends MvpBasePresenter<FragmentWorkView> {
+
+    /**
+     * Delete Work data from Room db
+     *
+     * @param context
+     * @return
+     */
+    public void deleteWorkData(Work work, Context context) {
+        WorkingDatabase
+                .getInstance(context)
+                .getWorkDao()
+                .delete(work);
+    }
 
     /**
      * Get DateFormat with Day

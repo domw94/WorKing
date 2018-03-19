@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 
@@ -40,6 +41,9 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
     @BindView(R.id.main_fab)
     FloatingActionButton fab;
 
+    @BindView(R.id.main_hours)
+    TextView tvhours;
+
     @Inject
     SharedPreferences sharedPreferences;
 
@@ -47,6 +51,8 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
     Navigator navigator;
 
     private String[] months;
+
+    private List<Work> works;
 
 
     @Override
@@ -69,19 +75,21 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
 
         months = getResources().getStringArray(R.array.months);
         for (int i = 0; i < months.length; i++) {
-            List<Work> works = presenter.loadWorkDataByMonth(getApplicationContext(), i);
+            works = getPresenter().loadWorkDataByMonth(getApplicationContext(), i);
             adapter.addFragment(months[i], MonthFragment.newInstance(works));
         }
 
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(presenter.getSelectedMonthByExtra(getIntent()), true);
+        viewPager.setCurrentItem(getPresenter().getSelectedMonthByExtra(getIntent()), true);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (positionOffset > 0) {
                     fab.hide();
                 }
+                tvhours.setText(getPresenter().getSumOfHoursOfMonth(getApplicationContext(), position));
                 getPresenter().setCurrentPagerPage(position);
+
             }
 
             @Override

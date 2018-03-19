@@ -29,11 +29,11 @@ public class ActivityMainPresenter extends MvpBasePresenter<ActivityMainView> {
      * @param context
      * @return
      */
-    public List<Work> loadWorkDataByMonth(Context context, int position) {
+    public List<Work> loadWorkDataByMonth(Context context, int month) {
         return WorkingDatabase
                 .getInstance(context)
                 .getWorkDao()
-                .loadDataByMonth(position);
+                .loadDataByMonth(month);
     }
 
     /**
@@ -83,5 +83,29 @@ public class ActivityMainPresenter extends MvpBasePresenter<ActivityMainView> {
         }
         return getCurrentItemByMonth();
     }
+
+    private int getTodaysMin(int selectedStartHour, int selectedStartMin, int selectedEndHour, int selectedEndMin) {
+        int min;
+        min = (selectedEndHour - selectedStartHour) * 60;
+        min += (selectedEndMin - selectedStartMin);
+        return min;
+    }
+
+    private int sumOfMinutesOfMonth(Context context, int position) {
+        List<Work> list = loadWorkDataByMonth(context, position);
+        int sum_of_min = 0;
+        for (Work work : list) {
+            sum_of_min += getTodaysMin(work.getStartHour(), work.getStartMin(), work.getEndHour(), work.getEndMin());
+        }
+        return sum_of_min;
+    }
+
+    public String getSumOfHoursOfMonth(Context context, int position) {
+        int hours = sumOfMinutesOfMonth(context, position) / 60;
+        int minutes = sumOfMinutesOfMonth(context, position) % 60;
+
+        return String.format("%d.%02d h", hours, minutes);
+    }
+
 
 }

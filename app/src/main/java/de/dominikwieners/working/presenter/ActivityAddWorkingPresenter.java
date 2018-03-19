@@ -24,6 +24,8 @@ public class ActivityAddWorkingPresenter extends MvpBasePresenter<ActivityAddWor
     private int day;
     private int month;
     private int year;
+    private int hour;
+    private int minute;
 
 
     private void getCurrentDateTime() {
@@ -31,7 +33,9 @@ public class ActivityAddWorkingPresenter extends MvpBasePresenter<ActivityAddWor
         year = c.get(Calendar.YEAR);
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
-        getDayOfWeek = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.GERMAN);
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
+        getDayOfWeek = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
     }
 
 
@@ -42,6 +46,26 @@ public class ActivityAddWorkingPresenter extends MvpBasePresenter<ActivityAddWor
      */
     public String getGetDayOfWeek() {
         return getDayOfWeek;
+    }
+
+    /**
+     * Get hour of day (now)
+     *
+     * @return
+     */
+    public int getHour() {
+        getCurrentDateTime();
+        return hour;
+    }
+
+    /**
+     * Get minute of day (now)
+     *
+     * @return
+     */
+    public int getMinute() {
+        getCurrentDateTime();
+        return minute;
     }
 
     /**

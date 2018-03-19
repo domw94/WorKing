@@ -28,4 +28,7 @@
         <item>Dezember</item>
     </string-array>
     <string name="add_working_button_save">hinzufügen</string>
+    <string name="error_times_incorrect">Start oder Endzeit sind falsch</string>
+    <string name="add_working_start_hint">06.00 Uhr</string>
+    <string name="add_working_end_hint">18.00 Uhr</string>
 </resources>
