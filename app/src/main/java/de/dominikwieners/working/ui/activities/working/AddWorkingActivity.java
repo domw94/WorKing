@@ -2,6 +2,7 @@ package de.dominikwieners.working.ui.activities.working;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +35,7 @@ import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.di.wkApplication;
 import de.dominikwieners.working.presenter.ActivityAddWorkingPresenter;
 import de.dominikwieners.working.ui.activities.working.fragments.DatePickerFragment;
+import de.dominikwieners.working.ui.activities.working.service.NotificationService;
 import de.dominikwieners.working.ui.view.ActivityAddWorkingView;
 import es.dmoral.toasty.Toasty;
 
@@ -56,6 +58,9 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
 
     @BindView(R.id.add_working_et_until)
     EditText etUntil;
+
+    @BindView(R.id.add_working_bu_start_timer)
+    Button timer;
 
     @BindView(R.id.add_working_bu_save)
     Button buSave;
@@ -105,9 +110,6 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
         etDate.setFocusable(false);
         etDate.setFocusableInTouchMode(false);
 
-        selectedStartHour = presenter.getHour();
-        selectedStartMin = presenter.getHour();
-        etFrom.setText(presenter.getTimeFormat(selectedStartHour, selectedStartMin));
         etFrom.setFocusable(false);
         etFrom.setFocusableInTouchMode(false);
 
@@ -198,6 +200,12 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
     }
 
 
+    @OnClick(R.id.add_working_bu_start_timer)
+    public void onClickTimer() {
+        //startService(new Intent(this, NotificationService.class));
+        //finish();
+    }
+
     @OnClick(R.id.add_working_bu_save)
     public void onClickSave() {
         String workingType = spType.getItemAtPosition(spType.getSelectedItemPosition()).toString();
@@ -210,5 +218,6 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
             Toasty.error(getApplicationContext(), getString(R.string.error_times_incorrect), Toast.LENGTH_LONG, false).show();
         }
     }
+
 
 }

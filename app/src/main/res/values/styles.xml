@@ -6,16 +6,26 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
-    <style name="WkButton" parent="ThemeOverlay.AppCompat">
-        <item name="android:background">@color/colorAccent</item>
+    <style name="WkButtonDefault" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorAccent</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="WkButtonLight" parent="Widget.AppCompat.Button.Colored">
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="WkButtonNotification" parent="Widget.AppCompat.Button.Colored">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
 </resources>

@@ -61,4 +61,8 @@ public class MonthFragment extends MvpFragment<FragmentWorkView, FragmentWorkPre
     public FragmentWorkPresenter createPresenter() {
         return new FragmentWorkPresenter();
     }
+
+    public RecyclerView getRecycler() {
+        return recycler;
+    }
 }

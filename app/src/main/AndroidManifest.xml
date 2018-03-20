@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".ui.activities.welcome.WelcomeActivity" />
         <activity android:name=".ui.activities.working.AddWorkingActivity"></activity>
+
+        <service android:name=".ui.activities.working.service.NotificationService" />
     </application>
 
 </manifest>

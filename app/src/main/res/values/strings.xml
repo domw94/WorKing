@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">WorKing</string>
     <string name="app_welcome">Welcome</string>
+    <string name="open_navigation_drawer">open drawer</string>
+    <string name="close_navigation_drawer">close drawer</string>
     <string name="welcome_option_menu_next">next</string>
     <string name="welcome_box_headline">Welcome to WorKing</string>
     <string name="welcome_box_content">Please select your types of work</string>
@@ -31,4 +33,6 @@
     <string name="error_times_incorrect">start or end time incorrect</string>
     <string name="add_working_start_hint">06.00 Uhr</string>
     <string name="add_working_end_hint">18.00 Uhr</string>
+    <string name="add_working_bu_start_timer">start timer</string>
+    <string name="add_working_start_timer_service">start timer</string>
 </resources>
