@@ -22,26 +22,26 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/welcome_box"
-        android:fitsSystemWindows="true"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/welcome"
+        android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome_toolbar">
 
         <TextView
             android:id="@+id/welcome_headline_head"
-            android:fitsSystemWindows="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
+            android:fitsSystemWindows="true"
             android:text="@string/welcome_box_headline"
             android:textColor="@android:color/white"
             android:textSize="18sp"
@@ -54,12 +54,12 @@
 
         <TextView
             android:id="@+id/welcome_headline_body"
-            android:fitsSystemWindows="true"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
+            android:fitsSystemWindows="true"
             android:text="@string/welcome_box_content"
             android:textColor="#85CCFA"
             android:textSize="18sp"

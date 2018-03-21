@@ -36,4 +36,6 @@
     <string name="add_working_bu_start_timer">start timer</string>
     <string name="add_working_start_timer_service">start timer</string>
     <string name="main_menu_delete_year">Delete year</string>
+    <string name="main_delete_entry_dialog_title">Delete enry</string>
+    <string name="main_delete_entry_dialog_content">Are you sure you want to delete?</string>
 </resources>

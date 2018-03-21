@@ -177,7 +177,7 @@ public class WelcomeActivity extends MvpActivity<ActivityWelcomeView, ActivityWe
             case R.id.welcome_menu_next:
 
                 SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-                prefEditor.putInt("WELCOME_DONE", 1);
+                prefEditor.putInt(Config.WELCOME_DONE, 1);
                 prefEditor.commit();
 
                 navigator.showMainActivity(this);

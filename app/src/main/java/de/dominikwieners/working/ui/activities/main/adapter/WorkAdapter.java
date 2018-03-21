@@ -56,8 +56,8 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkHolder> {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(holder.itemView.getContext());
-                alert.setTitle("Delete enry");
-                alert.setMessage("Are you sure you want to delete?");
+                alert.setTitle(R.string.main_delete_entry_dialog_title);
+                alert.setMessage(R.string.main_delete_entry_dialog_content);
                 alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

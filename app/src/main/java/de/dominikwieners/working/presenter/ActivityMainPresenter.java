@@ -3,6 +3,7 @@ package de.dominikwieners.working.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.Menu;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
@@ -33,6 +34,9 @@ public class ActivityMainPresenter extends MvpBasePresenter<ActivityMainView> {
 
     private int year;
 
+    /**
+     * Get all time relevant data
+     */
     private void getCurrentDateTime() {
         Calendar c = Calendar.getInstance(TimeZone.getDefault());
         year = c.get(Calendar.YEAR);
@@ -49,7 +53,11 @@ public class ActivityMainPresenter extends MvpBasePresenter<ActivityMainView> {
         return year;
     }
 
-
+    /**
+     * Get Selected Year
+     *
+     * @return
+     */
     public int getSelectedYear() {
         return selectedYear;
     }
@@ -71,12 +79,31 @@ public class ActivityMainPresenter extends MvpBasePresenter<ActivityMainView> {
                 .loadDataByMonth(year, month);
     }
 
+    /**
+     * Load all available years from db
+     * @param context
+     * @return
+     */
     public List<Integer> loadYearData(Context context) {
         return WorkingDatabase
                 .getInstance(context)
                 .getWorkDao()
                 .loadYears();
     }
+
+    /**
+     * Delete working data by year
+     *
+     * @param year
+     * @param context
+     */
+    public void deleteWorkByYear(int year, Context context) {
+        WorkingDatabase
+                .getInstance(context)
+                .getWorkDao()
+                .deleteByYear(year);
+    }
+
 
     /**
      * Check If WelcomeActivity is done
@@ -131,6 +158,14 @@ public class ActivityMainPresenter extends MvpBasePresenter<ActivityMainView> {
         return getCurrentItemByMonth();
     }
 
+    /**
+     * Get Working time in minutes
+     * @param selectedStartHour
+     * @param selectedStartMin
+     * @param selectedEndHour
+     * @param selectedEndMin
+     * @return
+     */
     private int getTodaysMin(int selectedStartHour, int selectedStartMin, int selectedEndHour, int selectedEndMin) {
         int min;
         min = (selectedEndHour - selectedStartHour) * 60;
@@ -138,6 +173,13 @@ public class ActivityMainPresenter extends MvpBasePresenter<ActivityMainView> {
         return min;
     }
 
+    /**
+     * Get Sum of working time of month
+     * @param context
+     * @param year
+     * @param position
+     * @return
+     */
     private int sumOfMinutesOfMonth(Context context, int year, int position) {
         List<Work> list = loadWorkDataByMonth(context, year, position);
         int sum_of_min = 0;
@@ -147,6 +189,13 @@ public class ActivityMainPresenter extends MvpBasePresenter<ActivityMainView> {
         return sum_of_min;
     }
 
+    /**
+     * Get hour/minute format for position
+     * @param context
+     * @param year
+     * @param position
+     * @return
+     */
     public String getSumOfHoursOfMonth(Context context, int year, int position) {
         int hours = sumOfMinutesOfMonth(context, year, position) / 60;
         int minutes = sumOfMinutesOfMonth(context, year, position) % 60;
@@ -154,13 +203,18 @@ public class ActivityMainPresenter extends MvpBasePresenter<ActivityMainView> {
         return String.format("%d.%02d h", hours, minutes);
     }
 
-
+    /**
+     * List all years in drawer which have got data from db
+     * @param yearsList
+     * @param menu
+     * @param context
+     */
     public void addYearMenuItemsToDrawer(List<Integer> yearsList, Menu menu, Context context) {
         Collections.reverse(yearsList);
         for (Integer item : yearsList) {
             menu.add(0, item.intValue(), 0, item.toString()).setIcon(R.mipmap.icon_bookmark);
         }
-
     }
+
 
 }

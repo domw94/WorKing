@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -75,7 +76,9 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
 
     MainPagerAdapter mainPagerAdapter;
 
-    String[] months;
+    private String[] months;
+
+    private List<Integer> yearList;
 
     private List<Work> works;
 
@@ -91,23 +94,23 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
         getSupportActionBar().setTitle(R.string.app_name);
 
         if (getIntent().hasExtra(Config.SELECTED_YEAR)) {
-            presenter.setSelectedYear(getIntent().getExtras().getInt(Config.SELECTED_YEAR));
+            getPresenter().setSelectedYear(getIntent().getExtras().getInt(Config.SELECTED_YEAR));
         } else {
-            presenter.setSelectedYear(presenter.getCurrentYear());
+            getPresenter().setSelectedYear(getPresenter().getCurrentYear());
         }
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_navigation_drawer, R.string.close_navigation_drawer);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        final List<Integer> yearList = presenter.loadYearData(getApplicationContext());
-        presenter.addYearMenuItemsToDrawer(yearList, navigatorView.getMenu(), getApplicationContext());
+        yearList = presenter.loadYearData(getApplicationContext());
+        getPresenter().addYearMenuItemsToDrawer(yearList, navigatorView.getMenu(), getApplicationContext());
         navigatorView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 for (Integer integer : yearList) {
                     if (item.getItemId() == integer.intValue()) {
-                        presenter.setSelectedYear(integer.intValue());
+                        getPresenter().setSelectedYear(integer.intValue());
                         navigator.showMainActivityWithYear(MainActivity.this, integer.intValue());
                     }
                 }
@@ -121,7 +124,7 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
         mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
         months = getResources().getStringArray(R.array.months);
         for (int i = 0; i < months.length; i++) {
-            works = getPresenter().loadWorkDataByMonth(getApplicationContext(), presenter.getSelectedYear(), i);
+            works = getPresenter().loadWorkDataByMonth(getApplicationContext(), getPresenter().getSelectedYear(), i);
             mainPagerAdapter.addFragment(months[i], MonthFragment.newInstance(works));
         }
         viewPager.setAdapter(mainPagerAdapter);
@@ -186,5 +189,22 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
         getMenuInflater().inflate(R.menu.main_menu, menu);
         menu.findItem(R.id.main_menu_year_item).setTitle(Integer.toString(getPresenter().getSelectedYear()));
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        ;
+        switch (item.getItemId()) {
+            case R.id.main_menu_delete_year_item:
+                if (!yearList.isEmpty()) {
+                    getPresenter().deleteWorkByYear(getPresenter().getSelectedYear(), this);
+                    navigator.showMainActivityWithYear(this, getPresenter().getCurrentYear());
+                    Toasty.success(this, getPresenter().getCurrentYear() + " wurde entfernt", Toast.LENGTH_LONG, false).show();
+                } else {
+                    Toasty.error(this, "Es kann kann Jahr entfernt werden", Toast.LENGTH_LONG, false).show();
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

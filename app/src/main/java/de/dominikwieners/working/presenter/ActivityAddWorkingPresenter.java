@@ -27,7 +27,9 @@ public class ActivityAddWorkingPresenter extends MvpBasePresenter<ActivityAddWor
     private int hour;
     private int minute;
 
-
+    /**
+     * Set all current time data
+     */
     private void getCurrentDateTime() {
         Calendar c = Calendar.getInstance(TimeZone.getDefault());
         year = c.get(Calendar.YEAR);

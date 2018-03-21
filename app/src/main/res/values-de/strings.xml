@@ -10,7 +10,7 @@
     <string name="welcome_dialog_headline">Arbeitsart hinzufügen</string>
     <string name="welcome_dialog_hint">Meine Arbeitsart</string>
     <string name="welcome_error_message_fields_empty">Bitte geben Sie eine Arbeitsart ein</string>
-    <string name="app_add_working">Strunden hinzufügen</string>
+    <string name="app_add_working">Strunde hinzufügen</string>
     <string name="add_working_tv_from">ab:</string>
     <string name="add_working_tv_until">bis:</string>
     <string-array name="months">
@@ -32,5 +32,7 @@
     <string name="add_working_start_hint">06.00 Uhr</string>
     <string name="add_working_end_hint">18.00 Uhr</string>
     <string name="add_working_bu_start_timer">Timer starten</string>
-    <string name="main_menu_delete_year">Delete year</string>
+    <string name="main_menu_delete_year">Jahr löschen</string>
+    <string name="main_delete_entry_dialog_title">Eintrag löschen</string>
+    <string name="main_delete_entry_dialog_content">Möchten Sie wirklich den Eintrag löschen?</string>
 </resources>

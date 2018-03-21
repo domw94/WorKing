@@ -29,8 +29,10 @@ public interface WorkDao {
     @Delete
     void delete(Work work);
 
-    @Query("DELETE FROM type where id = :uid")
-    void deleteById(int uid);
+    @Query("DELETE FROM work WHERE year = :selectedYear AND month = :selectedMonth ")
+    void deleteByMonth(int selectedYear, int selectedMonth);
 
+    @Query("DELETE FROM work WHERE year = :selectedYear")
+    void deleteByYear(int selectedYear);
 
 }

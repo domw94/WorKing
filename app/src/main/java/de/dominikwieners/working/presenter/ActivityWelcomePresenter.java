@@ -105,7 +105,12 @@ public class ActivityWelcomePresenter extends MvpBasePresenter<ActivityWelcomeVi
         }
     }
 
-
+    /**
+     * Dismiss Dialog when press goBack
+     *
+     * @param dialog
+     * @param keyCode
+     */
     public void goBackFromDialog(DialogInterface dialog, int keyCode) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             dialog.dismiss();
