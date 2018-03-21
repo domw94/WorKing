@@ -8,11 +8,13 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/welcome_toolbar"
+        android:fitsSystemWindows="true"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:elevation="1dp"
         android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,6 +22,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/welcome_box"
+        android:fitsSystemWindows="true"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -32,6 +35,7 @@
 
         <TextView
             android:id="@+id/welcome_headline_head"
+            android:fitsSystemWindows="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -50,6 +54,7 @@
 
         <TextView
             android:id="@+id/welcome_headline_body"
+            android:fitsSystemWindows="true"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
@@ -68,6 +73,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/welcome_recycler"
+        android:fitsSystemWindows="true"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -81,6 +87,7 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/welcome_fab"
+        android:fitsSystemWindows="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

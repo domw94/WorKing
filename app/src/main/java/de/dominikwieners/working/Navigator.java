@@ -49,6 +49,22 @@ public class Navigator {
         activity.finish();
     }
 
+    public void showMainActivityWithYear(Activity activity, int year) {
+        Intent intent = new Intent(activity, MainActivity.class);
+        intent.putExtra(Config.SELECTED_YEAR, year);
+        activity.startActivity(intent);
+        activity.finish();
+
+    }
+
+    public void showMainActivityWithPositionAndYear(Activity activity, int pagerPos, int selectedYear) {
+        Intent intent = new Intent(activity, MainActivity.class);
+        intent.putExtra(Config.CURRENT_PAGER_POS, pagerPos);
+        intent.putExtra(Config.SELECTED_YEAR, selectedYear);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
     ////////////////////////////////////////////////////
     // AddWorkingActivity
     ///////////////////////////////////////////////////
@@ -64,8 +80,6 @@ public class Navigator {
         activity.startActivity(intent);
         activity.finish();
     }
-
-
 
 
 

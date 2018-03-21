@@ -17,8 +17,11 @@ public interface WorkDao {
     @Query("SELECT * FROM work")
     List<Work> getAll();
 
-    @Query("SELECT * FROM work WHERE month = :selectedMonth")
-    List<Work> loadDataByMonth(int selectedMonth);
+    @Query("SELECT * FROM work WHERE year = :selectedYear AND month = :selectedMonth")
+    List<Work> loadDataByMonth(int selectedYear, int selectedMonth);
+
+    @Query("SELECT year FROM work GROUP BY year")
+    List<Integer> loadYears();
 
     @Insert
     void insertAll(Work... works);
@@ -28,4 +31,6 @@ public interface WorkDao {
 
     @Query("DELETE FROM type where id = :uid")
     void deleteById(int uid);
+
+
 }

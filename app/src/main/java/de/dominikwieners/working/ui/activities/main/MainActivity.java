@@ -13,12 +13,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,6 +31,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.dominikwieners.working.Config;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.data.Work;
@@ -35,6 +41,7 @@ import de.dominikwieners.working.ui.activities.main.adapter.MainPagerAdapter;
 import de.dominikwieners.working.ui.activities.main.fragments.MonthFragment;
 import de.dominikwieners.working.ui.activities.working.service.NotificationService;
 import de.dominikwieners.working.ui.view.ActivityMainView;
+import es.dmoral.toasty.Toasty;
 import io.reactivex.Observable;
 
 public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPresenter> {
@@ -66,7 +73,9 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
     @Inject
     Navigator navigator;
 
-    private String[] months;
+    MainPagerAdapter mainPagerAdapter;
+
+    String[] months;
 
     private List<Work> works;
 
@@ -80,20 +89,42 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_navigation_drawer, R.string.close_navigation_drawer);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        ((wkApplication) getApplication()).getComponent().inject(this);
 
-        final MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager());
-
-        months = getResources().getStringArray(R.array.months);
-        for (int i = 0; i < months.length; i++) {
-            works = getPresenter().loadWorkDataByMonth(getApplicationContext(), i);
-            adapter.addFragment(months[i], MonthFragment.newInstance(works));
+        if (getIntent().hasExtra(Config.SELECTED_YEAR)) {
+            presenter.setSelectedYear(getIntent().getExtras().getInt(Config.SELECTED_YEAR));
+        } else {
+            presenter.setSelectedYear(presenter.getCurrentYear());
         }
 
-        viewPager.setAdapter(adapter);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_navigation_drawer, R.string.close_navigation_drawer);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
+        final List<Integer> yearList = presenter.loadYearData(getApplicationContext());
+        presenter.addYearMenuItemsToDrawer(yearList, navigatorView.getMenu(), getApplicationContext());
+        navigatorView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                for (Integer integer : yearList) {
+                    if (item.getItemId() == integer.intValue()) {
+                        presenter.setSelectedYear(integer.intValue());
+                        navigator.showMainActivityWithYear(MainActivity.this, integer.intValue());
+                    }
+                }
+                return true;
+            }
+
+        });
+
+        ((wkApplication) getApplication()).getComponent().inject(this);
+
+        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
+        months = getResources().getStringArray(R.array.months);
+        for (int i = 0; i < months.length; i++) {
+            works = getPresenter().loadWorkDataByMonth(getApplicationContext(), presenter.getSelectedYear(), i);
+            mainPagerAdapter.addFragment(months[i], MonthFragment.newInstance(works));
+        }
+        viewPager.setAdapter(mainPagerAdapter);
         viewPager.setCurrentItem(getPresenter().getSelectedMonthByExtra(getIntent()), true);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -101,9 +132,9 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
                 if (positionOffset > 0) {
                     fab.hide();
                 }
-                tvhours.setText(getPresenter().getSumOfHoursOfMonth(getApplicationContext(), position));
+                tvhours.setText(getPresenter().getSumOfHoursOfMonth(getApplicationContext(), presenter.getSelectedYear(), position));
                 final int pos = position;
-                ((MonthFragment) adapter.getItem(position)).getRecycler().addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+                ((MonthFragment) mainPagerAdapter.getItem(position)).getRecycler().addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
                     @Override
                     public void onChildViewAttachedToWindow(View view) {
 
@@ -111,7 +142,7 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
 
                     @Override
                     public void onChildViewDetachedFromWindow(View view) {
-                        tvhours.setText(getPresenter().getSumOfHoursOfMonth(getApplicationContext(), pos));
+                        tvhours.setText(getPresenter().getSumOfHoursOfMonth(getApplicationContext(), presenter.getSelectedYear(), pos));
                     }
                 });
                 getPresenter().setCurrentPagerPage(position);
@@ -120,7 +151,6 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
 
             @Override
             public void onPageSelected(int position) {
-
             }
 
             @Override
@@ -151,7 +181,10 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
         super.onStart();
     }
 
-
-
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        menu.findItem(R.id.main_menu_year_item).setTitle(Integer.toString(getPresenter().getSelectedYear()));
+        return super.onCreateOptionsMenu(menu);
+    }
 }

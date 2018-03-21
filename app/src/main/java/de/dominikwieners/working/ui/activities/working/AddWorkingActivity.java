@@ -213,7 +213,7 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
         if (selectedTodaysMin > 0) {
             Work work = new Work(workingType, selectedDayOfWeek, selectedDay, selectedMonth, selectedYear, selectedStartHour, selectedStartMin, selectedEndHour, selectedEndMin, 1);
             presenter.insertWorkData(this, work);
-            navigator.showMainActivityWithPosition(this, pagerPos);
+            navigator.showMainActivityWithPositionAndYear(this, pagerPos, selectedYear);
         } else {
             Toasty.error(getApplicationContext(), getString(R.string.error_times_incorrect), Toast.LENGTH_LONG, false).show();
         }

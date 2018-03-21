@@ -11,11 +11,10 @@ public class Config {
     //Intent extras
     public static final String CURRENT_MONTH = "CURRENT_MONTH";
     public static final String CURRENT_PAGER_POS = "CURRENT_PAGER_POS";
+    public static final String SELECTED_YEAR = "SELECTED_YEAR";
 
     //Bundles
     public static final String WORK_ITEM_LIST = "WORK_ITEM_LIST";
-
-
 
     //state of next button in option menu
     public static final int HIDE_MENU = 0;
