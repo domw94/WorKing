@@ -38,4 +38,8 @@
     <string name="add_working_bu_save_succes_message">Stunde wurde erfolgreich hinzugefügt</string>
     <string name="main_year_delete_message">%1$s wurde entfernt</string>
     <string name="main_year_deleted_message_error">Jahr kann nicht gelöscht werden</string>
+    <string name="app_timer">Timer</string>
+    <string name="timer_bu_start_stop_resume">Play</string>
+    <string name="timer_bu_reset">reset</string>
+    <string name="timer_save">save</string>
 </resources>

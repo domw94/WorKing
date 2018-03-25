@@ -41,4 +41,11 @@
     <string name="add_working_bu_save_succes_message">Hour added successfully</string>
     <string name="main_year_delete_message">%1$s deleted successfully</string>
     <string name="main_year_deleted_message_error">Year can\'t be deleted</string>
+    <string name="app_timer">Timer</string>
+    <string name="timer_bu_start_stop_resume">Play</string>
+    <string name="timer_bu_reset">reset</string>
+    <string name="timer_save">save</string>
+    <string name="timer_save_dialog_cancle">cancle</string>
+    <string name="timer_save_dialog_save">save</string>
+    <string name="timer_save_dialog_info">Please choose a working type to save your time:</string>
 </resources>

@@ -1,20 +1,16 @@
 package de.dominikwieners.working.ui.activities.main;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,8 +19,6 @@ import android.widget.Toast;
 
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,10 +34,8 @@ import de.dominikwieners.working.di.wkApplication;
 import de.dominikwieners.working.presenter.ActivityMainPresenter;
 import de.dominikwieners.working.ui.activities.main.adapter.MainPagerAdapter;
 import de.dominikwieners.working.ui.activities.main.fragments.MonthFragment;
-import de.dominikwieners.working.ui.activities.working.service.NotificationService;
 import de.dominikwieners.working.ui.view.ActivityMainView;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Observable;
 
 public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPresenter> {
 

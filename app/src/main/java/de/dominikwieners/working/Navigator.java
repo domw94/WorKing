@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import de.dominikwieners.working.ui.activities.main.MainActivity;
+import de.dominikwieners.working.ui.activities.timer.TimerActivity;
 import de.dominikwieners.working.ui.activities.welcome.WelcomeActivity;
 import de.dominikwieners.working.ui.activities.working.AddWorkingActivity;
 
@@ -82,5 +83,13 @@ public class Navigator {
     }
 
 
+    ////////////////////////////////////////////////////
+    // ShowTimerActivity
+    ///////////////////////////////////////////////////
 
+    public void showTimerActivity(Activity activity) {
+        Intent intent = new Intent(activity, TimerActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
 }

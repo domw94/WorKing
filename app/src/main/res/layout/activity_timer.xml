@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.dominikwieners.working.ui.activities.timer.TimerActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/timer_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/timer_time"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="93dp"
+        android:background="@drawable/blue_circle"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Hallo"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timer_toolbar" />
+
+
+    <Button
+        android:id="@+id/timer_bu_start_stop_resume"
+        style="@style/WkButtonDefault"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="156dp"
+        android:onClick="buStartTimer"
+        android:text="@string/timer_bu_start_stop_resume"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/timer_bu_save"
+        app:layout_constraintStart_toEndOf="@+id/timer_bu_reset" />
+
+    <Button
+        android:id="@+id/timer_bu_reset"
+        style="@style/WkButtonTransparent"
+        android:background="?attr/selectableItemBackground"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/timer_bu_reset"
+        app:layout_constraintBaseline_toBaselineOf="@+id/timer_bu_start_stop_resume"
+        app:layout_constraintEnd_toStartOf="@+id/timer_bu_start_stop_resume"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/timer_bu_save"
+        style="@style/WkButtonTransparent"
+        android:background="?attr/selectableItemBackground"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/timer_save"
+        app:layout_constraintBaseline_toBaselineOf="@+id/timer_bu_start_stop_resume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/timer_bu_start_stop_resume" />
+</android.support.constraint.ConstraintLayout>

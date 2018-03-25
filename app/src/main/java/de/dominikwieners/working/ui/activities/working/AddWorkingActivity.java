@@ -2,11 +2,6 @@ package de.dominikwieners.working.ui.activities.working;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -39,7 +34,6 @@ import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.di.wkApplication;
 import de.dominikwieners.working.presenter.ActivityAddWorkingPresenter;
 import de.dominikwieners.working.ui.activities.working.fragments.DatePickerFragment;
-import de.dominikwieners.working.ui.activities.working.service.NotificationService;
 import de.dominikwieners.working.ui.view.ActivityAddWorkingView;
 import es.dmoral.toasty.Toasty;
 
@@ -89,8 +83,7 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
 
     private int pagerPos;
 
-    NotificationService mService;
-    boolean mBound = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +115,7 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
         etUntil.setFocusable(false);
         etUntil.setFocusableInTouchMode(false);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, presenter.getTypeArray(getApplicationContext()));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, getPresenter().getTypeArray(getApplicationContext()));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spType.setAdapter(adapter);
     }
@@ -208,10 +201,11 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
 
     @OnClick(R.id.add_working_bu_start_timer)
     public void onClickTimer() {
-        if (mBound) {
+        /*  if (mBound) {
             mService.showNotification();
             mService.timer();
-        }
+        }*/
+        navigator.showTimerActivity(this);
     }
 
     @OnClick(R.id.add_working_bu_save)
@@ -229,26 +223,5 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
     }
 
 
-    private ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            NotificationService.LocalBinder binder = (NotificationService.LocalBinder) service;
-            mService = binder.getService();
-            mBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mBound = false;
-        }
-    };
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        Intent intent = new Intent(this, NotificationService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-    }
 
 }

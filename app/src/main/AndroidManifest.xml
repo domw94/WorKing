@@ -20,9 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activities.welcome.WelcomeActivity" />
-        <activity android:name=".ui.activities.working.AddWorkingActivity"></activity>
+        <activity android:name=".ui.activities.working.AddWorkingActivity" />
+        <activity android:name=".ui.activities.timer.TimerActivity" />
 
-        <service android:name=".ui.activities.working.service.NotificationService" />
+        <service android:name=".ui.activities.timer.service.TimerService" />
     </application>
 
 </manifest>
