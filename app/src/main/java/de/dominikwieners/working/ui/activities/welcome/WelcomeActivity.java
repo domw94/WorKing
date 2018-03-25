@@ -2,9 +2,13 @@ package de.dominikwieners.working.ui.activities.welcome;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.os.Bundle;
@@ -67,7 +71,6 @@ public class WelcomeActivity extends MvpActivity<ActivityWelcomeView, ActivityWe
     private int mState;
 
     List<Type> typeList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,5 +211,6 @@ public class WelcomeActivity extends MvpActivity<ActivityWelcomeView, ActivityWe
 
         Toasty.error(getApplicationContext(), memeber.getType() + " is member of your types", Toast.LENGTH_LONG, false).show();
     }
+
 
 }

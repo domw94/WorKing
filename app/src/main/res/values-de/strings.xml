@@ -35,4 +35,7 @@
     <string name="main_menu_delete_year">Jahr löschen</string>
     <string name="main_delete_entry_dialog_title">Eintrag löschen</string>
     <string name="main_delete_entry_dialog_content">Möchten Sie wirklich den Eintrag löschen?</string>
+    <string name="add_working_bu_save_succes_message">Stunde wurde erfolgreich hinzugefügt</string>
+    <string name="main_year_delete_message">%1$s wurde entfernt</string>
+    <string name="main_year_deleted_message_error">Jahr kann nicht gelöscht werden</string>
 </resources>

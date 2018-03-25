@@ -138,14 +138,14 @@
 
         <Button
             android:id="@+id/add_working_bu_start_timer"
-            android:fitsSystemWindows="true"
             style="@style/WkButtonLight"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
+            android:fitsSystemWindows="true"
             android:text="@string/add_working_bu_start_timer"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

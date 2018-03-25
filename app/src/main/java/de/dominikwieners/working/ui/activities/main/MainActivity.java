@@ -199,9 +199,9 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
                 if (!yearList.isEmpty()) {
                     getPresenter().deleteWorkByYear(getPresenter().getSelectedYear(), this);
                     navigator.showMainActivityWithYear(this, getPresenter().getCurrentYear());
-                    Toasty.success(this, getPresenter().getCurrentYear() + " wurde entfernt", Toast.LENGTH_LONG, false).show();
+                    Toasty.success(this, String.format(getString(R.string.main_year_delete_message), Integer.toString(getPresenter().getSelectedYear())), Toast.LENGTH_LONG, false).show();
                 } else {
-                    Toasty.error(this, "Es kann kann Jahr entfernt werden", Toast.LENGTH_LONG, false).show();
+                    Toasty.error(this, getString(R.string.main_year_deleted_message_error), Toast.LENGTH_LONG, false).show();
                 }
                 break;
         }

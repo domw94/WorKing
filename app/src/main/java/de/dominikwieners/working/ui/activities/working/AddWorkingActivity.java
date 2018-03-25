@@ -2,7 +2,11 @@ package de.dominikwieners.working.ui.activities.working;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -83,8 +87,10 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
 
     private String[] months;
 
-
     private int pagerPos;
+
+    NotificationService mService;
+    boolean mBound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,8 +208,10 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
 
     @OnClick(R.id.add_working_bu_start_timer)
     public void onClickTimer() {
-        //startService(new Intent(this, NotificationService.class));
-        //finish();
+        if (mBound) {
+            mService.showNotification();
+            mService.timer();
+        }
     }
 
     @OnClick(R.id.add_working_bu_save)
@@ -214,10 +222,33 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
             Work work = new Work(workingType, selectedDayOfWeek, selectedDay, selectedMonth, selectedYear, selectedStartHour, selectedStartMin, selectedEndHour, selectedEndMin, 1);
             presenter.insertWorkData(this, work);
             navigator.showMainActivityWithPositionAndYear(this, pagerPos, selectedYear);
+            Toasty.success(getApplicationContext(), getString(R.string.add_working_bu_save_succes_message), Toast.LENGTH_LONG, false).show();
         } else {
             Toasty.error(getApplicationContext(), getString(R.string.error_times_incorrect), Toast.LENGTH_LONG, false).show();
         }
     }
 
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            NotificationService.LocalBinder binder = (NotificationService.LocalBinder) service;
+            mService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mBound = false;
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Intent intent = new Intent(this, NotificationService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
 
 }
