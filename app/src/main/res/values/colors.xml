@@ -5,7 +5,9 @@
     <color name="colorAccent">#0b9af5</color>
     <color name="colorLightGray">#fbfbfd</color>
     <color name="colorLightGrayText">#c4c4c4</color>
-    <color name="colorPauseOrError">#d92727</color>
+    <color name="colorTimerSaveGreen">#009688</color>
+    <color name="colorTimerDefaultCircleColor">#eeeeee</color>
+    <color name="colorTimerNotification">#009688</color>
 </resources>
 
 

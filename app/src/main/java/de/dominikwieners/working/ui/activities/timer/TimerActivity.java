@@ -1,5 +1,6 @@
 package de.dominikwieners.working.ui.activities.timer;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -14,30 +15,29 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.Spinner;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.dominikwieners.working.Config;
 import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.R;
-import de.dominikwieners.working.data.Type;
+import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.di.wkApplication;
 import de.dominikwieners.working.presenter.ActivityTimerPresenter;
 import de.dominikwieners.working.ui.activities.timer.service.TimerService;
 import de.dominikwieners.working.ui.view.ActivityTimerView;
+import es.dmoral.toasty.Toasty;
 
 public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerPresenter> implements ActivityTimerView {
 
@@ -53,9 +53,6 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
 
     @BindView(R.id.timer_bu_start_stop_resume)
     Button buStartStop;
-
-    @BindView(R.id.timer_bu_save)
-    Button buSave;
 
     @Inject
     Navigator navigator;
@@ -78,7 +75,6 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.app_timer));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((wkApplication) getApplication()).getComponent().inject(this);
     }
 
@@ -88,23 +84,9 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
         return new ActivityTimerPresenter();
     }
 
-
-    @Override
-    public void onBackPressed() {
-        navigator.showMainActivity(this);
-        super.onBackPressed();
+    public Activity getActivity() {
+        return this;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                navigator.showMainActivity(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     @Override
     protected void onStart() {
@@ -168,21 +150,44 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
                 Log.v(TAG, "Starting timer");
             }
             timerService.startTimer();
-            buStartStop.setText("Stop");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                buStartStop.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorPauseOrError));
-            }
             updateUIStartRun();
         } else if (serviceBound && timerService.isTimerRunning()) {
             if (Log.isLoggable(TAG, Log.VERBOSE)) {
                 Log.v(TAG, "Stopping timer");
             }
-            timerService.stopTimer();
-            buStartStop.setText("Start");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                buStartStop.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorAccent));
+            if (timerService.getMinutes() < Config.TIMER_MINUTES_ON_ENABLE_SAVE) {
+                Toasty.error(this, String.format(getString(R.string.timer_text_minute_error), Config.TIMER_MINUTES_ON_ENABLE_SAVE), Toast.LENGTH_LONG, false).show();
+            } else {
+                String[] typeArray = getPresenter().getTypeArray(this);
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(TimerActivity.this);
+                mBuilder.setSingleChoiceItems(typeArray, 0, null);
+                mBuilder.setTitle(R.string.timer_save_dialog_info);
+                mBuilder.setPositiveButton(R.string.timer_save_dialog_save, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (serviceBound && timerService.isTimerRunning()) {
+                            if (Log.isLoggable(TAG, Log.VERBOSE)) {
+                                Log.v(TAG, "Stopping timer");
+                            }
+                            timerService.stopTimer();
+                        }
+                        ListView lv = ((AlertDialog) dialog).getListView();
+                        String workingType = lv.getAdapter().getItem(lv.getCheckedItemPosition()).toString();
+                        Work work = new Work(workingType, timerService.getStartDayOfWeek(), timerService.getStartDay(), timerService.getStartMonth(), timerService.getStartYear(), timerService.getStartHour(), timerService.getStartMinute(), timerService.getEndHour(), timerService.getEndMinute(), timerService.getMinutes());
+                        presenter.insertWorkData(getApplicationContext(), work);
+                        navigator.showMainActivityWithPositionAndYear(getActivity(), timerService.getStartMonth(), timerService.getStartYear());
+                        Toasty.success(getApplicationContext(), getString(R.string.add_working_bu_save_succes_message), Toast.LENGTH_LONG, false).show();
+                    }
+                });
+                mBuilder.setNegativeButton(R.string.timer_save_dialog_cancle, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                mBuilder.show();
             }
-            updateUIStopRun();
+
         }
     }
 
@@ -196,28 +201,10 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
             buStartStop.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorAccent));
         }
         timerService.resetTimer();
+        tvTimer.setText(R.string.timer_text_placeholder);
+        tvTimer.setBackground(getResources().getDrawable(R.drawable.gray_circle));
     }
 
-    @OnClick(R.id.timer_bu_save)
-    public void onSave() {
-        String[] typeArray = getPresenter().getTypeArray(this);
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(TimerActivity.this);
-        mBuilder.setSingleChoiceItems(typeArray, 0, null);
-        mBuilder.setTitle(R.string.timer_save_dialog_info);
-        mBuilder.setPositiveButton(R.string.timer_save_dialog_save, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        mBuilder.setNegativeButton(R.string.timer_save_dialog_cancle, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        mBuilder.show();
-    }
 
     static class UIUpdateHandler extends Handler {
 
@@ -245,7 +232,11 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
      */
     private void updateUIStartRun() {
         mUpdateTimeHandler.sendEmptyMessage(MSG_UPDATE_TIME);
-        //timerButton.setText(R.string.timer_stop_button);
+        buStartStop.setText(getString(R.string.timer_bu_save));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            buStartStop.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorTimerSaveGreen));
+        }
+        tvTimer.setBackground(getResources().getDrawable(R.drawable.green_circle));
     }
 
     /**
@@ -253,7 +244,10 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
      */
     private void updateUIStopRun() {
         mUpdateTimeHandler.removeMessages(MSG_UPDATE_TIME);
-        //timerButton.setText(R.string.timer_start_button);
+        buStartStop.setText(getString(R.string.timer_bu_start));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            buStartStop.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorAccent));
+        }
     }
 
     /**

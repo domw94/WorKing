@@ -33,13 +33,24 @@
     <string name="add_working_end_hint">18.00 Uhr</string>
     <string name="add_working_bu_start_timer">Timer starten</string>
     <string name="main_menu_delete_year">Jahr löschen</string>
+    <string name="main_menu_delete_month">Monat löschen</string>
     <string name="main_delete_entry_dialog_title">Eintrag löschen</string>
     <string name="main_delete_entry_dialog_content">Möchten Sie wirklich den Eintrag löschen?</string>
     <string name="add_working_bu_save_succes_message">Stunde wurde erfolgreich hinzugefügt</string>
     <string name="main_year_delete_message">%1$s wurde entfernt</string>
+    <string name="main_month_delete_message">%1$s wurde gelöscht </string>
     <string name="main_year_deleted_message_error">Jahr kann nicht gelöscht werden</string>
+    <string name="main_month_deleted_message_error">%1$s kann nicht gelöscht werden</string>
     <string name="app_timer">Timer</string>
-    <string name="timer_bu_start_stop_resume">Play</string>
-    <string name="timer_bu_reset">reset</string>
-    <string name="timer_save">save</string>
+    <string name="timer_bu_start">Start</string>
+    <string name="timer_bu_reset">Zurücksetzten</string>
+    <string name="timer_bu_save">Speichern</string>
+    <string name="timer_save_dialog_cancle">Abbrechen</string>
+    <string name="timer_save_dialog_save">Speichern</string>
+    <string name="timer_save_dialog_info">Bitte wähle einen Arbeitstypen aus, um zu speichern:</string>
+    <string name="timer_notification_head">Der Timer ist aktiv</string>
+    <string name="timer_notification_content">Klicke hier um zurück zum Timer zu kommen</string>
+    <string name="timer_text_placeholder">00:00:00</string>
+    <string name="timer_text_minute_error">Es kann erst nach %d min hinzugefügt werden</string>
+
 </resources>

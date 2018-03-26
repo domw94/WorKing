@@ -185,7 +185,6 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        ;
         switch (item.getItemId()) {
             case R.id.main_menu_delete_year_item:
                 if (!yearList.isEmpty()) {
@@ -194,6 +193,17 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
                     Toasty.success(this, String.format(getString(R.string.main_year_delete_message), Integer.toString(getPresenter().getSelectedYear())), Toast.LENGTH_LONG, false).show();
                 } else {
                     Toasty.error(this, getString(R.string.main_year_deleted_message_error), Toast.LENGTH_LONG, false).show();
+                }
+                break;
+            case R.id.main_menu_delete_month_item:
+                List<Work> list = presenter.loadWorkDataByMonth(this, getPresenter().getSelectedYear(), getPresenter().getCurrentPagerPosition());
+                if (!list.isEmpty()) {
+                    getPresenter().deleteWorkByMonth(getPresenter().getSelectedYear(), getPresenter().getCurrentPagerPosition(), this);
+                    navigator.showMainActivityWithPositionAndYear(this, getPresenter().getCurrentPagerPosition(), getPresenter().getSelectedYear());
+
+                    Toasty.success(this, String.format(getString(R.string.main_month_delete_message), months[getPresenter().getCurrentPagerPosition()]), Toast.LENGTH_LONG, false).show();
+                } else {
+                    Toasty.error(this, String.format(getString(R.string.main_month_deleted_message_error), months[getPresenter().getCurrentPagerPosition()]), Toast.LENGTH_LONG, false).show();
                 }
                 break;
         }

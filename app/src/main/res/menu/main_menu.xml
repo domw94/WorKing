@@ -10,4 +10,7 @@
     <item
         android:id="@+id/main_menu_delete_year_item"
         android:title="@string/main_menu_delete_year" />
+    <item
+        android:id="@+id/main_menu_delete_month_item"
+        android:title="@string/main_menu_delete_month" />
 </menu>

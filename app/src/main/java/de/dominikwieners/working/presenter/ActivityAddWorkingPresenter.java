@@ -1,5 +1,6 @@
 package de.dominikwieners.working.presenter;
 
+import android.app.ActivityManager;
 import android.content.Context;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
@@ -179,5 +180,16 @@ public class ActivityAddWorkingPresenter extends MvpBasePresenter<ActivityAddWor
         min = (selectedEndHour - selectedStartHour) * 60;
         min += (selectedEndMin - selectedStartMin);
         return min;
+    }
+
+
+    public boolean isServiceRunning(Class<?> serviceClass, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

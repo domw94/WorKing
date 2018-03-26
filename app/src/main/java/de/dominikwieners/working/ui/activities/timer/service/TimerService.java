@@ -16,7 +16,10 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,7 +38,23 @@ public class TimerService extends Service {
 
     private Timer timer;
     // Start and end times in milliseconds
-    private long startTime, lastTimestamp, secondsElapsed;
+    private long lastTimestamp, secondsElapsed;
+
+    //Time
+    int seconds;
+    int minutes;
+    int hours;
+
+    // Current Date
+    int startYear;
+    int startMonth;
+    int startDay;
+    int startHour;
+    int startMinute;
+    String startDayOfWeek;
+
+    // Is the datetime already set?
+    private boolean isSetCurrentDateTimer = false;
 
     // Is the service tracking time?
     private boolean isTimerRunning;
@@ -45,6 +64,19 @@ public class TimerService extends Service {
 
     // Service binder
     private final IBinder serviceBinder = new RunServiceBinder();
+
+    /**
+     * Set all current time data
+     */
+    private void getCurrentDateTime() {
+        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+        startYear = c.get(Calendar.YEAR);
+        startMonth = c.get(Calendar.MONTH);
+        startDay = c.get(Calendar.DAY_OF_MONTH);
+        startHour = c.get(Calendar.HOUR_OF_DAY);
+        startMinute = c.get(Calendar.MINUTE);
+        startDayOfWeek = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+    }
 
     public class RunServiceBinder extends Binder {
         public TimerService getService() {
@@ -90,6 +122,10 @@ public class TimerService extends Service {
     public void startTimer() {
         if (!isTimerRunning) {
             timer = new Timer();
+            if (!isSetCurrentDateTimer) {
+                getCurrentDateTime();
+            }
+            isSetCurrentDateTimer = true;
             lastTimestamp = new Date().getTime() / 1000;
             timer.schedule(new TimerTask() {
                 @Override
@@ -145,12 +181,53 @@ public class TimerService extends Service {
      */
     public String elapsedTime() {
         // If the timer is running, the end time will be zero
-        int seconds = (int) secondsElapsed % 60;
-        int minutes = (int) secondsElapsed / 60;
-        int hours = minutes / 60;
+        seconds = (int) secondsElapsed % 60;
+        minutes = (int) secondsElapsed / 60;
+        hours = minutes / 60;
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
+    /**
+     * Get minutes from timer
+     *
+     * @return
+     */
+    public int getMinutes() {
+        return minutes;
+    }
+
+
+    public int getStartYear() {
+        return startYear;
+    }
+
+    public int getStartMonth() {
+        return startMonth;
+    }
+
+    public int getStartDay() {
+        return startDay;
+    }
+
+    public int getStartHour() {
+        return startHour;
+    }
+
+    public int getStartMinute() {
+        return startMinute;
+    }
+
+    public String getStartDayOfWeek() {
+        return startDayOfWeek;
+    }
+
+    public int getEndMinute() {
+        return (getStartMinute() + minutes) % 60;
+    }
+
+    public int getEndHour() {
+        return (getStartHour() + hours) % 24;
+    }
     /**
      * Place the service into the foreground
      */
@@ -182,9 +259,13 @@ public class TimerService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, ii, 0);
 
         mBuilder.setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("Timer Active")
-                .setContentText("Tap to return to the timer")
+                .setContentTitle(getResources().getString(R.string.timer_notification_head))
+                .setContentText(getResources().getString(R.string.timer_notification_content))
+                .setColor(getResources().getColor(R.color.colorTimerNotification))
+                .setColorized(true)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification))
                 .setContentIntent(pendingIntent);
+
 
         manager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

@@ -33,6 +33,7 @@ import de.dominikwieners.working.R;
 import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.di.wkApplication;
 import de.dominikwieners.working.presenter.ActivityAddWorkingPresenter;
+import de.dominikwieners.working.ui.activities.timer.service.TimerService;
 import de.dominikwieners.working.ui.activities.working.fragments.DatePickerFragment;
 import de.dominikwieners.working.ui.view.ActivityAddWorkingView;
 import es.dmoral.toasty.Toasty;
@@ -58,7 +59,7 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
     EditText etUntil;
 
     @BindView(R.id.add_working_bu_start_timer)
-    Button timer;
+    Button buTimer;
 
     @BindView(R.id.add_working_bu_save)
     Button buSave;
@@ -201,10 +202,6 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
 
     @OnClick(R.id.add_working_bu_start_timer)
     public void onClickTimer() {
-        /*  if (mBound) {
-            mService.showNotification();
-            mService.timer();
-        }*/
         navigator.showTimerActivity(this);
     }
 
@@ -213,7 +210,7 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
         String workingType = spType.getItemAtPosition(spType.getSelectedItemPosition()).toString();
         selectedTodaysMin = presenter.getTodaysMin(selectedStartHour, selectedStartMin, selectedEndHour, selectedEndMin);
         if (selectedTodaysMin > 0) {
-            Work work = new Work(workingType, selectedDayOfWeek, selectedDay, selectedMonth, selectedYear, selectedStartHour, selectedStartMin, selectedEndHour, selectedEndMin, 1);
+            Work work = new Work(workingType, selectedDayOfWeek, selectedDay, selectedMonth, selectedYear, selectedStartHour, selectedStartMin, selectedEndHour, selectedEndMin, selectedTodaysMin);
             presenter.insertWorkData(this, work);
             navigator.showMainActivityWithPositionAndYear(this, pagerPos, selectedYear);
             Toasty.success(getApplicationContext(), getString(R.string.add_working_bu_save_succes_message), Toast.LENGTH_LONG, false).show();
@@ -221,7 +218,6 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
             Toasty.error(getApplicationContext(), getString(R.string.error_times_incorrect), Toast.LENGTH_LONG, false).show();
         }
     }
-
 
 
 }

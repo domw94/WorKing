@@ -7,6 +7,7 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 import java.util.List;
 
 import de.dominikwieners.working.data.Type;
+import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.repository.WorkingDatabase;
 import de.dominikwieners.working.ui.view.ActivityTimerView;
 
@@ -41,5 +42,19 @@ public class ActivityTimerPresenter extends MvpBasePresenter<ActivityTimerView> 
             types[i] = typeList.get(i).getType();
         }
         return types;
+    }
+
+
+    /**
+     * Inset Work into db
+     *
+     * @param context
+     * @param work
+     */
+    public void insertWorkData(Context context, Work work) {
+        WorkingDatabase
+                .getInstance(context)
+                .getWorkDao()
+                .insertAll(work);
     }
 }

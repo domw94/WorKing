@@ -105,6 +105,13 @@ public class ActivityMainPresenter extends MvpBasePresenter<ActivityMainView> {
     }
 
 
+    public void deleteWorkByMonth(int year, int month, Context context) {
+        WorkingDatabase
+                .getInstance(context)
+                .getWorkDao()
+                .deleteByMonth(year, month);
+    }
+
     /**
      * Check If WelcomeActivity is done
      * @param sharedPreferences

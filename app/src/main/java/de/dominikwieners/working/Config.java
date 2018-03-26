@@ -20,5 +20,6 @@ public class Config {
     public static final int HIDE_MENU = 0;
     public static final int SHOW_MENU = 1;
 
-
+    //After this timer limit, it's possible to add data
+    public static final int TIMER_MINUTES_ON_ENABLE_SAVE = 1;
 }
