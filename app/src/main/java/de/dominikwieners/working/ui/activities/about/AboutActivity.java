@@ -101,6 +101,6 @@ public class AboutActivity extends MvpActivity<ActivityAboutView, ActivityAboutP
 
     @OnClick(R.id.about_item_about_libs_row)
     public void onClickLibs() {
-        Toasty.info(this, "show libs", Toast.LENGTH_LONG, false).show();
+        navigator.showLibsActivity(this);
     }
 }

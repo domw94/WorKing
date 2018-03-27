@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import de.dominikwieners.working.ui.activities.about.AboutActivity;
+import de.dominikwieners.working.ui.activities.libs.LibsActivity;
 import de.dominikwieners.working.ui.activities.main.MainActivity;
 import de.dominikwieners.working.ui.activities.timer.TimerActivity;
 import de.dominikwieners.working.ui.activities.welcome.WelcomeActivity;
@@ -111,6 +112,7 @@ public class Navigator {
     /////////////////////////////////////////////////
     public void showWebsite(Activity activity, String url) {
         CustomTabsIntent.Builder builderCustomTabs = new CustomTabsIntent.Builder();
+        builderCustomTabs.setToolbarColor(activity.getResources().getColor(R.color.colorPrimary));
         CustomTabsIntent intentCustomTabs = builderCustomTabs.build();
         intentCustomTabs.launchUrl(activity, Uri.parse(url));
     }
@@ -121,8 +123,15 @@ public class Navigator {
     public void showMail(Activity activity, String address) {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto", address, null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
         activity.startActivity(Intent.createChooser(emailIntent, "Send email..."));
+    }
+
+    //////////////////////////////////////////////////
+    // Show Libs Activity
+    /////////////////////////////////////////////////
+    public void showLibsActivity(Activity activity) {
+        Intent intent = new Intent(activity, LibsActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
     }
 }
