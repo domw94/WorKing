@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">WorKing</string>
     <string name="app_welcome">Willkommen</string>
+    <string name="app_timer">Timer</string>
     <string name="welcome_option_menu_next">weiter</string>
     <string name="welcome_box_headline">Willkommen bei WorKing</string>
     <string name="welcome_box_content">Bitte wähle deine Arbeitsarten aus</string>
@@ -10,7 +11,7 @@
     <string name="welcome_dialog_headline">Arbeitsart hinzufügen</string>
     <string name="welcome_dialog_hint">Meine Arbeitsart</string>
     <string name="welcome_error_message_fields_empty">Bitte geben Sie eine Arbeitsart ein</string>
-    <string name="app_add_working">Strunde hinzufügen</string>
+    <string name="app_add_working">Stunde hinzufügen</string>
     <string name="add_working_tv_from">ab:</string>
     <string name="add_working_tv_until">bis:</string>
     <string-array name="months">
@@ -41,7 +42,6 @@
     <string name="main_month_delete_message">%1$s wurde gelöscht </string>
     <string name="main_year_deleted_message_error">Jahr kann nicht gelöscht werden</string>
     <string name="main_month_deleted_message_error">%1$s kann nicht gelöscht werden</string>
-    <string name="app_timer">Timer</string>
     <string name="timer_bu_start">Start</string>
     <string name="timer_bu_reset">Zurücksetzten</string>
     <string name="timer_bu_save">Speichern</string>
@@ -52,5 +52,7 @@
     <string name="timer_notification_content">Klicke hier um zurück zum Timer zu kommen</string>
     <string name="timer_text_placeholder">00:00:00</string>
     <string name="timer_text_minute_error">Es kann erst nach %d min hinzugefügt werden</string>
+    <string name="about_item">Über</string>
+    <string name="settings_item">Einstellung</string>
 
 </resources>

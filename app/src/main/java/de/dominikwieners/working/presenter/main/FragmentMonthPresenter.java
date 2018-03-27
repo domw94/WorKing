@@ -1,20 +1,18 @@
-package de.dominikwieners.working.presenter;
+package de.dominikwieners.working.presenter.main;
 
 import android.content.Context;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 
-import java.util.List;
-
 import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.repository.WorkingDatabase;
-import de.dominikwieners.working.ui.view.FragmentWorkView;
+import de.dominikwieners.working.ui.view.main.FragmentMonthView;
 
 /**
  * Created by dominikwieners on 18.03.18.
  */
 
-public class FragmentWorkPresenter extends MvpBasePresenter<FragmentWorkView> {
+public class FragmentMonthPresenter extends MvpBasePresenter<FragmentMonthView> {
 
     /**
      * Delete Work data from Room db

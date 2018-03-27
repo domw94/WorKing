@@ -22,4 +22,8 @@ public class Config {
 
     //After this timer limit, it's possible to add data
     public static final int TIMER_MINUTES_ON_ENABLE_SAVE = 1;
+
+    public static final String MY_WEBSITE = "http://dominikwieners.de/";
+    public static final String MY_EMAIL_ADDRESS = "kontakt@dominikwieners.de";
+    public static final String MY_GITHUB = "https://github.com/domw94";
 }

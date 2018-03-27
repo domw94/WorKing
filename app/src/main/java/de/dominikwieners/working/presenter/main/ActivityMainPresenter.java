@@ -1,9 +1,8 @@
-package de.dominikwieners.working.presenter;
+package de.dominikwieners.working.presenter.main;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.view.Menu;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
@@ -11,16 +10,13 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import de.dominikwieners.working.Config;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.repository.WorkingDatabase;
-import de.dominikwieners.working.ui.activities.main.adapter.MainPagerAdapter;
-import de.dominikwieners.working.ui.activities.main.fragments.MonthFragment;
-import de.dominikwieners.working.ui.view.ActivityMainView;
+import de.dominikwieners.working.ui.view.main.ActivityMainView;
 
 /**
  * Created by dominikwieners on 13.03.18.

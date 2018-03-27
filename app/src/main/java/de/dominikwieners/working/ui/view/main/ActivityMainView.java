@@ -1,4 +1,4 @@
-package de.dominikwieners.working.ui.view;
+package de.dominikwieners.working.ui.view.main;
 
 import com.hannesdorfmann.mosby3.mvp.MvpView;
 

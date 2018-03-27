@@ -8,16 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.dominikwieners.working.Config;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.data.Work;
-import de.dominikwieners.working.presenter.ActivityMainPresenter;
-import de.dominikwieners.working.presenter.FragmentWorkPresenter;
+import de.dominikwieners.working.presenter.main.FragmentMonthPresenter;
 import de.dominikwieners.working.ui.activities.main.holder.WorkHolder;
 
 /**
@@ -26,11 +23,11 @@ import de.dominikwieners.working.ui.activities.main.holder.WorkHolder;
 
 public class WorkAdapter extends RecyclerView.Adapter<WorkHolder> {
 
-    private FragmentWorkPresenter presenter;
+    private FragmentMonthPresenter presenter;
     private ArrayList<Work> typeList;
     private Context context;
 
-    public WorkAdapter(FragmentWorkPresenter presenter, Context context, Bundle bundle) {
+    public WorkAdapter(FragmentMonthPresenter presenter, Context context, Bundle bundle) {
         this.presenter = presenter;
         this.context = context;
         this.typeList = (ArrayList<Work>) bundle.getSerializable(Config.WORK_ITEM_LIST);

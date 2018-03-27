@@ -5,13 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.List;
 
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.data.Type;
-import de.dominikwieners.working.presenter.ActivityWelcomePresenter;
+import de.dominikwieners.working.presenter.welcome.ActivityWelcomePresenter;
 import de.dominikwieners.working.ui.activities.welcome.holder.TypeHolder;
 
 /**

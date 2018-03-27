@@ -1,4 +1,4 @@
-package de.dominikwieners.working.presenter;
+package de.dominikwieners.working.presenter.welcome;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,7 +15,7 @@ import de.dominikwieners.working.Config;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.data.Type;
 import de.dominikwieners.working.repository.WorkingDatabase;
-import de.dominikwieners.working.ui.view.ActivityWelcomeView;
+import de.dominikwieners.working.ui.view.welcome.ActivityWelcomeView;
 
 /**
  * Created by dominikwieners on 13.03.18.

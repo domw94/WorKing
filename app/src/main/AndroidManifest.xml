@@ -24,6 +24,8 @@
         <activity android:name=".ui.activities.timer.TimerActivity" />
 
         <service android:name=".ui.activities.timer.service.TimerService" />
+
+        <activity android:name=".ui.activities.about.AboutActivity"></activity>
     </application>
 
 </manifest>

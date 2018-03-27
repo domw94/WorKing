@@ -31,10 +31,10 @@ import de.dominikwieners.working.R;
 import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.di.wkApplication;
-import de.dominikwieners.working.presenter.ActivityMainPresenter;
+import de.dominikwieners.working.presenter.main.ActivityMainPresenter;
 import de.dominikwieners.working.ui.activities.main.adapter.MainPagerAdapter;
 import de.dominikwieners.working.ui.activities.main.fragments.MonthFragment;
-import de.dominikwieners.working.ui.view.ActivityMainView;
+import de.dominikwieners.working.ui.view.main.ActivityMainView;
 import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPresenter> {
@@ -100,6 +100,11 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
         navigatorView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.drawer_main_about_item:
+                        navigator.showAboutActivity(MainActivity.this);
+                        break;
+                }
                 for (Integer integer : yearList) {
                     if (item.getItemId() == integer.intValue()) {
                         getPresenter().setSelectedYear(integer.intValue());

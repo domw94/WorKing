@@ -1,4 +1,4 @@
-package de.dominikwieners.working.presenter;
+package de.dominikwieners.working.presenter.timer;
 
 import android.content.Context;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import de.dominikwieners.working.data.Type;
 import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.repository.WorkingDatabase;
-import de.dominikwieners.working.ui.view.ActivityTimerView;
+import de.dominikwieners.working.ui.view.timer.ActivityTimerView;
 
 /**
  * Created by dominikwieners on 25.03.18.

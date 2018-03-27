@@ -1,4 +1,4 @@
-package de.dominikwieners.working.presenter;
+package de.dominikwieners.working.presenter.working;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -13,7 +13,7 @@ import java.util.TimeZone;
 import de.dominikwieners.working.data.Type;
 import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.repository.WorkingDatabase;
-import de.dominikwieners.working.ui.view.ActivityAddWorkingView;
+import de.dominikwieners.working.ui.view.working.ActivityAddWorkingView;
 
 /**
  * Created by dominikwieners on 17.03.18.

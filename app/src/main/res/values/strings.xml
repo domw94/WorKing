@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">WorKing</string>
     <string name="app_welcome">Welcome</string>
+    <string name="app_timer">Timer</string>
     <string name="open_navigation_drawer">open drawer</string>
     <string name="close_navigation_drawer">close drawer</string>
     <string name="welcome_option_menu_next">next</string>
@@ -33,7 +34,7 @@
     <string name="error_times_incorrect">start or end time incorrect</string>
     <string name="add_working_start_hint">06.00</string>
     <string name="add_working_end_hint">18.00</string>
-    <string name="add_working_bu_start_timer">start timer</string>
+    <string name="add_working_bu_start_timer">timer</string>
     <string name="add_working_start_timer_service">start timer</string>
     <string name="main_menu_delete_year">Delete year</string>
     <string name="main_menu_delete_month">Delete month</string>
@@ -44,7 +45,6 @@
     <string name="main_month_delete_message">%1$s deleted successfully </string>
     <string name="main_year_deleted_message_error">Year can\'t be deleted</string>
     <string name="main_month_deleted_message_error">%1$s can\'t be deleted</string>
-    <string name="app_timer">Timer</string>
     <string name="timer_bu_start">start</string>
     <string name="timer_bu_reset">reset</string>
     <string name="timer_bu_save">save</string>
@@ -55,5 +55,7 @@
     <string name="timer_notification_content">Tap to return to the timer</string>
     <string name="timer_text_placeholder">00:00:00</string>
     <string name="timer_text_minute_error">You only can add hours after %d min</string>
+    <string name="about_item">About</string>
+    <string name="settings_item">Settings</string>
 
 </resources>

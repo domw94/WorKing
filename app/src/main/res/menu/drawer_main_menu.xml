@@ -2,8 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item
-        android:id="@+id/drawer_main_about_item"
-        android:title="About"
-        android:icon="@mipmap/icon_about" />
+    <group android:id="@+id/working_setting">
+        <item
+            android:id="@+id/drawer_main_about_item"
+            android:icon="@mipmap/icon_about"
+            android:title="@string/about_item" />
+        <item
+            android:id="@+id/drawer_main_settings_item"
+            android:icon="@mipmap/icon_settings"
+            android:title="@string/settings_item" />
+    </group>
+
+
 </menu>

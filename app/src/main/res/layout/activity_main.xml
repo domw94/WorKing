@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     tools:context="de.dominikwieners.working.ui.activities.main.MainActivity">
 
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/main_toolbar"
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="1dp"
+        android:fitsSystemWindows="true"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,11 +22,11 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/main_tab_layout"
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="1dp"
+        android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_toolbar"
@@ -35,22 +36,23 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/main_view_pager"
-        android:fitsSystemWindows="true"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:fitsSystemWindows="true"
         app:layout_constraintBottom_toTopOf="@+id/main_month_bottom_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_tab_layout" />
 
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/main_fab"
-        android:fitsSystemWindows="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:clickable="true"
+        android:fitsSystemWindows="true"
         app:elevation="8dp"
         app:fabSize="normal"
         app:layout_constraintBottom_toTopOf="@+id/main_month_bottom_bar"
@@ -59,22 +61,22 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/main_month_bottom_bar"
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="@drawable/bottom_bar"
+        android:fitsSystemWindows="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/main_total_label"
-            android:fitsSystemWindows="true"
             android:layout_width="0dp"
             android:layout_height="25dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:fitsSystemWindows="true"
             android:text="Total:"
             android:textColor="@color/colorLightGrayText"
             android:textSize="18sp"
@@ -86,13 +88,13 @@
 
         <TextView
             android:id="@+id/main_hours"
-            android:fitsSystemWindows="true"
             android:layout_width="0dp"
             android:layout_height="26dp"
             android:layout_marginBottom="14dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
+            android:fitsSystemWindows="true"
             android:textColor="@color/colorLightGrayText"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -101,6 +103,5 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="2.10 h" />
     </android.support.constraint.ConstraintLayout>
-
 
 </android.support.constraint.ConstraintLayout>

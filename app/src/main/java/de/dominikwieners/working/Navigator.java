@@ -3,10 +3,13 @@ package de.dominikwieners.working;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import de.dominikwieners.working.ui.activities.about.AboutActivity;
 import de.dominikwieners.working.ui.activities.main.MainActivity;
 import de.dominikwieners.working.ui.activities.timer.TimerActivity;
 import de.dominikwieners.working.ui.activities.welcome.WelcomeActivity;
@@ -24,7 +27,7 @@ public class Navigator {
     }
 
     ////////////////////////////////////////////////////
-    // WelcomeActivity
+    // Show WelcomeActivity
     ///////////////////////////////////////////////////
 
     public void showWelcomeActivity(Activity activity) {
@@ -34,7 +37,7 @@ public class Navigator {
     }
 
     ////////////////////////////////////////////////////
-    // MainActivity
+    // Show MainActivity
     ///////////////////////////////////////////////////
 
     public void showMainActivity(Activity activity) {
@@ -67,7 +70,7 @@ public class Navigator {
     }
 
     ////////////////////////////////////////////////////
-    // AddWorkingActivity
+    // Show AddWorkingActivity
     ///////////////////////////////////////////////////
 
     public void showAddWorkingActivity(Activity activity) {
@@ -84,12 +87,42 @@ public class Navigator {
 
 
     ////////////////////////////////////////////////////
-    // ShowTimerActivity
+    // Show TimerActivity
     ///////////////////////////////////////////////////
 
     public void showTimerActivity(Activity activity) {
         Intent intent = new Intent(activity, TimerActivity.class);
         activity.startActivity(intent);
         activity.finish();
+    }
+
+    //////////////////////////////////////////////////
+    // Show AboutActivity
+    /////////////////////////////////////////////////
+
+    public void showAboutActivity(Activity activity) {
+        Intent intent = new Intent(activity, AboutActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    //////////////////////////////////////////////////
+    // Show Website
+    /////////////////////////////////////////////////
+    public void showWebsite(Activity activity, String url) {
+        CustomTabsIntent.Builder builderCustomTabs = new CustomTabsIntent.Builder();
+        CustomTabsIntent intentCustomTabs = builderCustomTabs.build();
+        intentCustomTabs.launchUrl(activity, Uri.parse(url));
+    }
+
+    //////////////////////////////////////////////////
+    // Show Mail
+    /////////////////////////////////////////////////
+    public void showMail(Activity activity, String address) {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", address, null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
+        activity.startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 }

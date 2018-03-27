@@ -2,13 +2,9 @@ package de.dominikwieners.working.ui.activities.welcome;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.os.Bundle;
@@ -42,9 +38,9 @@ import de.dominikwieners.working.Config;
 import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.data.Type;
-import de.dominikwieners.working.presenter.ActivityWelcomePresenter;
+import de.dominikwieners.working.presenter.welcome.ActivityWelcomePresenter;
 import de.dominikwieners.working.ui.activities.welcome.adapter.TypeAdapter;
-import de.dominikwieners.working.ui.view.ActivityWelcomeView;
+import de.dominikwieners.working.ui.view.welcome.ActivityWelcomeView;
 import de.dominikwieners.working.di.wkApplication;
 import es.dmoral.toasty.Toasty;
 

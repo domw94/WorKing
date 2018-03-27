@@ -34,9 +34,9 @@ import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.di.wkApplication;
-import de.dominikwieners.working.presenter.ActivityTimerPresenter;
+import de.dominikwieners.working.presenter.timer.ActivityTimerPresenter;
 import de.dominikwieners.working.ui.activities.timer.service.TimerService;
-import de.dominikwieners.working.ui.view.ActivityTimerView;
+import de.dominikwieners.working.ui.view.timer.ActivityTimerView;
 import es.dmoral.toasty.Toasty;
 
 public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerPresenter> implements ActivityTimerView {

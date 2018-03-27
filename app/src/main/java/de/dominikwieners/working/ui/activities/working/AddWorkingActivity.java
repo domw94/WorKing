@@ -32,10 +32,9 @@ import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.data.Work;
 import de.dominikwieners.working.di.wkApplication;
-import de.dominikwieners.working.presenter.ActivityAddWorkingPresenter;
-import de.dominikwieners.working.ui.activities.timer.service.TimerService;
+import de.dominikwieners.working.presenter.working.ActivityAddWorkingPresenter;
 import de.dominikwieners.working.ui.activities.working.fragments.DatePickerFragment;
-import de.dominikwieners.working.ui.view.ActivityAddWorkingView;
+import de.dominikwieners.working.ui.view.working.ActivityAddWorkingView;
 import es.dmoral.toasty.Toasty;
 
 public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, ActivityAddWorkingPresenter> implements ActivityAddWorkingView, DatePickerDialog.OnDateSetListener {
