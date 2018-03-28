@@ -2,6 +2,7 @@ package de.dominikwieners.working.presenter.welcome;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.view.KeyEvent;
@@ -13,7 +14,7 @@ import java.util.List;
 
 import de.dominikwieners.working.Config;
 import de.dominikwieners.working.R;
-import de.dominikwieners.working.data.Type;
+import de.dominikwieners.working.data.room.Type;
 import de.dominikwieners.working.repository.WorkingDatabase;
 import de.dominikwieners.working.ui.view.welcome.ActivityWelcomeView;
 
@@ -115,6 +116,16 @@ public class ActivityWelcomePresenter extends MvpBasePresenter<ActivityWelcomeVi
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             dialog.dismiss();
         }
+    }
+
+    /**
+     * Check If WelcomeActivity is done
+     *
+     * @param sharedPreferences
+     * @return
+     */
+    public int checkIfNextDone(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getInt(Config.WELCOME_DONE, 0);
     }
 
 

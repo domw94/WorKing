@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.R;
-import de.dominikwieners.working.data.Work;
+import de.dominikwieners.working.data.room.Work;
 import de.dominikwieners.working.di.wkApplication;
 import de.dominikwieners.working.presenter.working.ActivityAddWorkingPresenter;
 import de.dominikwieners.working.ui.activities.working.fragments.DatePickerFragment;

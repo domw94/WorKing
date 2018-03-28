@@ -79,7 +79,7 @@
             fab:fab_colorNormal="@color/colorPrimary"
             fab:fab_colorPressed="@color/colorLightGray"
             fab:fab_colorRipple="#22000000"
-            fab:fab_label="Timer"
+            fab:fab_label="@string/main_fab_timer_lable"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -90,7 +90,7 @@
             fab:fab_colorNormal="@color/colorPrimary"
             fab:fab_colorPressed="@color/colorLightGray"
             fab:fab_colorRipple="#22000000"
-            fab:fab_label="New entry"
+            fab:fab_label="@string/main_fab_new_entry"
             fab:fab_size="mini" />
 
 

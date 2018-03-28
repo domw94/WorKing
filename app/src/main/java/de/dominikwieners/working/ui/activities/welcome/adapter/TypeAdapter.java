@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import de.dominikwieners.working.R;
-import de.dominikwieners.working.data.Type;
+import de.dominikwieners.working.data.room.Type;
 import de.dominikwieners.working.presenter.welcome.ActivityWelcomePresenter;
 import de.dominikwieners.working.ui.activities.welcome.holder.TypeHolder;
 

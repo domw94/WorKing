@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 
-import de.dominikwieners.working.data.Work;
+import de.dominikwieners.working.data.room.Work;
 import de.dominikwieners.working.repository.WorkingDatabase;
 import de.dominikwieners.working.ui.view.main.FragmentMonthView;
 

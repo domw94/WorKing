@@ -2,7 +2,7 @@ package de.dominikwieners.working.ui.view.welcome;
 
 import com.hannesdorfmann.mosby3.mvp.MvpView;
 
-import de.dominikwieners.working.data.Type;
+import de.dominikwieners.working.data.room.Type;
 
 /**
  * Created by dominikwieners on 13.03.18.

@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -33,7 +32,8 @@ import butterknife.OnClick;
 import de.dominikwieners.working.Config;
 import de.dominikwieners.working.R;
 import de.dominikwieners.working.Navigator;
-import de.dominikwieners.working.data.Work;
+import de.dominikwieners.working.data.room.Type;
+import de.dominikwieners.working.data.room.Work;
 import de.dominikwieners.working.di.wkApplication;
 import de.dominikwieners.working.presenter.main.ActivityMainPresenter;
 import de.dominikwieners.working.ui.activities.main.adapter.MainPagerAdapter;
@@ -85,6 +85,8 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
 
     private List<Work> works;
 
+    private List<Type> types;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +116,9 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
                 switch (item.getItemId()) {
                     case R.id.drawer_main_about_item:
                         navigator.showAboutActivity(MainActivity.this);
+                        break;
+                    case R.id.drawer_main_settings_item:
+                        navigator.showSettingsActivity(MainActivity.this);
                         break;
                 }
                 for (Integer integer : yearList) {
@@ -167,6 +172,7 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
         });
 
         tabLayout.setupWithViewPager(viewPager);
+        types = getPresenter().loadTypeData(this);
     }
 
     @NonNull
@@ -203,6 +209,8 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
     @Override
     protected void onStart() {
         if (getPresenter().checkIfNextDone(sharedPreferences) == 0) {
+            navigator.showWelcomeActivity(this);
+        } else if (getPresenter().checkIfNextDone(sharedPreferences) != 0 && types.isEmpty()) {
             navigator.showWelcomeActivity(this);
         }
         super.onStart();

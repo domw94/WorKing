@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 import de.dominikwieners.working.ui.activities.about.AboutActivity;
 import de.dominikwieners.working.ui.activities.libs.LibsActivity;
 import de.dominikwieners.working.ui.activities.main.MainActivity;
+import de.dominikwieners.working.ui.activities.settings.SettingsActivity;
 import de.dominikwieners.working.ui.activities.timer.TimerActivity;
 import de.dominikwieners.working.ui.activities.welcome.WelcomeActivity;
 import de.dominikwieners.working.ui.activities.working.AddWorkingActivity;
@@ -122,10 +123,19 @@ public class Navigator {
     }
 
     //////////////////////////////////////////////////
-    // Show Libs Activity
+    // Show LibsActivity
     /////////////////////////////////////////////////
     public void showLibsActivity(Activity activity) {
         Intent intent = new Intent(activity, LibsActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    //////////////////////////////////////////////////
+    // Show SettingsActivity
+    /////////////////////////////////////////////////
+    public void showSettingsActivity(Activity activity) {
+        Intent intent = new Intent(activity, SettingsActivity.class);
         activity.startActivity(intent);
         activity.finish();
     }

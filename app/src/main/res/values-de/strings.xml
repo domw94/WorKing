@@ -37,7 +37,7 @@
     <string name="main_menu_delete_month">Monat löschen</string>
     <string name="main_delete_entry_dialog_title">Eintrag löschen</string>
     <string name="main_delete_entry_dialog_content">Möchten Sie wirklich den Eintrag löschen?</string>
-    <string name="add_working_bu_save_succes_message">Stunde wurde erfolgreich hinzugefügt</string>
+    <string name="add_working_bu_save_succes_message">Stunden wurden erfolgreich hinzugefügt</string>
     <string name="main_year_delete_message">%1$s wurde entfernt</string>
     <string name="main_month_delete_message">%1$s wurde gelöscht </string>
     <string name="main_year_deleted_message_error">Jahr kann nicht gelöscht werden</string>
@@ -56,5 +56,9 @@
     <string name="settings_item">Einstellung</string>
     <string name="main_hours_total_detail">%.2f Stunden</string>
     <string name="main_hours_total">Gesamt:</string>
+    <string name="settings_edit_types">Arbeitstypen bearbeiten</string>
+    <string name="app_settings">Einstellung</string>
+    <string name="main_fab_timer_lable">Timer</string>
+    <string name="main_fab_new_entry">Neuer Eintrag</string>
 
 </resources>

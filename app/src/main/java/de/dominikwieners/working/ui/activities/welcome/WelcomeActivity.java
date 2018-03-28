@@ -37,7 +37,7 @@ import butterknife.OnClick;
 import de.dominikwieners.working.Config;
 import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.R;
-import de.dominikwieners.working.data.Type;
+import de.dominikwieners.working.data.room.Type;
 import de.dominikwieners.working.presenter.welcome.ActivityWelcomePresenter;
 import de.dominikwieners.working.ui.activities.welcome.adapter.TypeAdapter;
 import de.dominikwieners.working.ui.view.welcome.ActivityWelcomeView;
@@ -74,8 +74,22 @@ public class WelcomeActivity extends MvpActivity<ActivityWelcomeView, ActivityWe
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.app_welcome);
         ((wkApplication) getApplication()).getComponent().inject(this);
+        typeList = getPresenter().loadTypeData(this);
+        if (getPresenter().checkIfNextDone(sharedPreferences) != 0) {
+            if (typeList.isEmpty()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Es wurden alle Arbeitstypen entfernt. Bitte legen Sie neue an.");
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.create().show();
+            }
+        }
+
     }
 
 
@@ -172,6 +186,17 @@ public class WelcomeActivity extends MvpActivity<ActivityWelcomeView, ActivityWe
         super.onResume();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (getPresenter().checkIfNextDone(sharedPreferences) == 0) {
+            getSupportActionBar().setTitle(R.string.app_welcome);
+            showWelcome();
+        } else {
+            getSupportActionBar().setTitle(R.string.settings_edit_types);
+            hideWelcome();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -198,6 +223,15 @@ public class WelcomeActivity extends MvpActivity<ActivityWelcomeView, ActivityWe
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (getPresenter().checkIfNextDone(sharedPreferences) != 0) {
+            if (!typeList.isEmpty()) {
+                navigator.showMainActivity(this);
+            }
+        }
+        super.onBackPressed();
+    }
 
     @Override
     public void showWelcome() {

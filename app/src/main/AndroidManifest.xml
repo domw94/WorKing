@@ -26,7 +26,8 @@
         <service android:name=".ui.activities.timer.service.TimerService" />
 
         <activity android:name=".ui.activities.about.AboutActivity" />
-        <activity android:name=".ui.activities.libs.LibsActivity"></activity>
+        <activity android:name=".ui.activities.libs.LibsActivity" />
+        <activity android:name=".ui.activities.settings.SettingsActivity"></activity>
     </application>
 
 </manifest>

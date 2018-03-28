@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.dominikwieners.working.Config;
 import de.dominikwieners.working.R;
-import de.dominikwieners.working.data.Work;
+import de.dominikwieners.working.data.room.Work;
 import de.dominikwieners.working.presenter.main.FragmentMonthPresenter;
 import de.dominikwieners.working.ui.activities.main.adapter.WorkAdapter;
 import de.dominikwieners.working.ui.view.main.FragmentMonthView;

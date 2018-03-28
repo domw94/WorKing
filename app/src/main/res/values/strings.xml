@@ -40,7 +40,7 @@
     <string name="main_menu_delete_month">Delete month</string>
     <string name="main_delete_entry_dialog_title">Delete enry</string>
     <string name="main_delete_entry_dialog_content">Are you sure you want to delete?</string>
-    <string name="add_working_bu_save_succes_message">Hour added successfully</string>
+    <string name="add_working_bu_save_succes_message">Hours added successfully</string>
     <string name="main_year_delete_message">%1$s deleted successfully</string>
     <string name="main_month_delete_message">%1$s deleted successfully </string>
     <string name="main_year_deleted_message_error">Year can\'t be deleted</string>
@@ -59,5 +59,9 @@
     <string name="settings_item">Settings</string>
     <string name="main_hours_total_detail">%.2f h</string>
     <string name="main_hours_total">Total:</string>
+    <string name="settings_edit_types">Edit types</string>
+    <string name="app_settings">Settings</string>
+    <string name="main_fab_timer_lable">Timer</string>
+    <string name="main_fab_new_entry">New entry</string>
 
 </resources>

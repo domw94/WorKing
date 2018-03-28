@@ -1,4 +1,4 @@
-package de.dominikwieners.working.data;
+package de.dominikwieners.working.data.room;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;

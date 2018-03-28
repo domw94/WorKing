@@ -5,10 +5,10 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import de.dominikwieners.working.data.Type;
-import de.dominikwieners.working.data.TypeDao;
-import de.dominikwieners.working.data.Work;
-import de.dominikwieners.working.data.WorkDao;
+import de.dominikwieners.working.data.room.Type;
+import de.dominikwieners.working.data.room.TypeDao;
+import de.dominikwieners.working.data.room.Work;
+import de.dominikwieners.working.data.room.WorkDao;
 
 /**
  * Created by dominikwieners on 13.03.18.

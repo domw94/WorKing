@@ -14,7 +14,8 @@ import java.util.TimeZone;
 
 import de.dominikwieners.working.Config;
 import de.dominikwieners.working.R;
-import de.dominikwieners.working.data.Work;
+import de.dominikwieners.working.data.room.Type;
+import de.dominikwieners.working.data.room.Work;
 import de.dominikwieners.working.repository.WorkingDatabase;
 import de.dominikwieners.working.ui.view.main.ActivityMainView;
 
@@ -85,6 +86,19 @@ public class ActivityMainPresenter extends MvpBasePresenter<ActivityMainView> {
                 .getInstance(context)
                 .getWorkDao()
                 .loadYears();
+    }
+
+    /**
+     * Load Type data from Room db
+     *
+     * @param context
+     * @return
+     */
+    public List<Type> loadTypeData(Context context) {
+        return WorkingDatabase
+                .getInstance(context)
+                .getTypeDao()
+                .getAll();
     }
 
     /**
