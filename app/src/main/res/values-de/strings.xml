@@ -54,5 +54,7 @@
     <string name="timer_text_minute_error">Es kann erst nach %d min hinzugefügt werden</string>
     <string name="about_item">Über</string>
     <string name="settings_item">Einstellung</string>
+    <string name="main_hours_total_detail">%.2f Stunden</string>
+    <string name="main_hours_total">Gesamt:</string>
 
 </resources>

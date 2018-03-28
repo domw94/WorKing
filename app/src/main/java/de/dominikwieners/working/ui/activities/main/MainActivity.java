@@ -140,7 +140,7 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                tvhours.setText(getPresenter().getSumOfHoursOfMonth(getApplicationContext(), presenter.getSelectedYear(), position));
+                tvhours.setText(getPresenter().getSumOfHoursOfMonthInHour(getApplicationContext(), presenter.getSelectedYear(), position));
                 final int pos = position;
                 ((MonthFragment) mainPagerAdapter.getItem(position)).getRecycler().addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
                     @Override
@@ -150,7 +150,7 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
 
                     @Override
                     public void onChildViewDetachedFromWindow(View view) {
-                        tvhours.setText(getPresenter().getSumOfHoursOfMonth(getApplicationContext(), presenter.getSelectedYear(), pos));
+                        tvhours.setText(getPresenter().getSumOfHoursOfMonthInHour(getApplicationContext(), presenter.getSelectedYear(), pos));
                     }
                 });
                 getPresenter().setCurrentPagerPage(position);

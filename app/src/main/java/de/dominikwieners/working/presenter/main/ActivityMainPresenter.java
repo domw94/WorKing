@@ -199,11 +199,25 @@ public class ActivityMainPresenter extends MvpBasePresenter<ActivityMainView> {
      * @param position
      * @return
      */
-    public String getSumOfHoursOfMonth(Context context, int year, int position) {
+    public String getSumOfHoursOfMonthInHourAndMin(Context context, int year, int position) {
         int hours = sumOfMinutesOfMonth(context, year, position) / 60;
         int minutes = sumOfMinutesOfMonth(context, year, position) % 60;
 
-        return String.format("%d.%02d h", hours, minutes);
+        return String.format("%d h %02d min", hours, minutes);
+    }
+
+
+    /**
+     * Get hour/minute format for position
+     *
+     * @param context
+     * @param year
+     * @param position
+     * @return
+     */
+    public String getSumOfHoursOfMonthInHour(Context context, int year, int position) {
+        double hours = (double) sumOfMinutesOfMonth(context, year, position) / 60;
+        return String.format(String.format(context.getResources().getString(R.string.main_hours_total_detail), hours));
     }
 
     /**
