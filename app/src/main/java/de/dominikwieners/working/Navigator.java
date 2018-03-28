@@ -80,11 +80,6 @@ public class Navigator {
         activity.finish();
     }
 
-    public void showAddWorkingActivityWithExtras(Activity activity) {
-        Intent intent = new Intent(activity, AddWorkingActivity.class);
-        activity.startActivity(intent);
-        activity.finish();
-    }
 
 
     ////////////////////////////////////////////////////

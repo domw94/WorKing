@@ -263,7 +263,6 @@ public class TimerService extends Service {
                 .setContentText(getResources().getString(R.string.timer_notification_content))
                 .setColor(getResources().getColor(R.color.colorTimerNotification))
                 .setColorized(true)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification))
                 .setContentIntent(pendingIntent);
 
 

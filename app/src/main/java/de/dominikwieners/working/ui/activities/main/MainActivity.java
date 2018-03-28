@@ -1,9 +1,10 @@
 package de.dominikwieners.working.ui.activities.main;
 
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -13,10 +14,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
 
 import java.util.List;
@@ -39,6 +43,7 @@ import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPresenter> {
 
+
     @BindView(R.id.main_drawer_layout)
     DrawerLayout drawerLayout;
 
@@ -54,8 +59,14 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
     @BindView(R.id.main_view_pager)
     ViewPager viewPager;
 
-    @BindView(R.id.main_fab)
-    FloatingActionButton fab;
+    @BindView(R.id.main_fab_menu)
+    FloatingActionMenu menuFab;
+
+    @BindView(R.id.main_fab_new_entry)
+    FloatingActionButton fabEntry;
+
+    @BindView(R.id.main_fabe_timer)
+    FloatingActionButton fabTimer;
 
     @BindView(R.id.main_hours)
     TextView tvhours;
@@ -129,9 +140,6 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (positionOffset > 0) {
-                    fab.hide();
-                }
                 tvhours.setText(getPresenter().getSumOfHoursOfMonth(getApplicationContext(), presenter.getSelectedYear(), position));
                 final int pos = position;
                 ((MonthFragment) mainPagerAdapter.getItem(position)).getRecycler().addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
@@ -155,7 +163,6 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                fab.show();
             }
         });
 
@@ -168,9 +175,29 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
         return new ActivityMainPresenter();
     }
 
-    @OnClick(R.id.main_fab)
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (menuFab.isOpened()) {
+                Rect outRect = new Rect();
+                menuFab.getGlobalVisibleRect(outRect);
+
+                if (!outRect.contains((int) ev.getRawX(), (int) ev.getRawY())) {
+                    menuFab.close(true);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @OnClick(R.id.main_fab_new_entry)
     public void onClickFab() {
-        navigator.showAddWorkingActivityWithExtras(this);
+        navigator.showAddWorkingActivity(this);
+    }
+
+    @OnClick(R.id.main_fabe_timer)
+    public void onClickTimer() {
+        navigator.showTimerActivity(this);
     }
 
     @Override

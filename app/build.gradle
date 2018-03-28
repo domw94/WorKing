@@ -32,29 +32,33 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    //Dagger
+    // Dagger
     implementation 'com.google.dagger:dagger:2.7'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
 
-    //Mosby
+    // Mosby
     implementation 'com.hannesdorfmann.mosby3:mvp:3.1.0'
 
-    //Butterknife
+    // Butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    //Room
+    // Room
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
 
-    //RxJava
+    // RxJava
     implementation 'io.reactivex.rxjava2:rxjava:2.0.0'
 
-    //Toasty
+    // Toasty
     implementation 'com.github.GrenderG:Toasty:1.2.8'
 
+    // AboutLibraries
     implementation('com.mikepenz:aboutlibraries:6.0.6@aar') {
         transitive = true
     }
+
+    // Fab Menu
+    implementation 'com.github.clans:fab:1.6.4'
 
 }

@@ -57,9 +57,6 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
     @BindView(R.id.add_working_et_until)
     EditText etUntil;
 
-    @BindView(R.id.add_working_bu_start_timer)
-    Button buTimer;
-
     @BindView(R.id.add_working_bu_save)
     Button buSave;
 
@@ -198,11 +195,6 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
         timePickerDialog.show();
     }
 
-
-    @OnClick(R.id.add_working_bu_start_timer)
-    public void onClickTimer() {
-        navigator.showTimerActivity(this);
-    }
 
     @OnClick(R.id.add_working_bu_save)
     public void onClickSave() {
