@@ -139,13 +139,25 @@ public class WelcomeActivity extends MvpActivity<ActivityWelcomeView, ActivityWe
     @Override
     protected void onResume() {
         typeList = getPresenter().loadTypeData(this);
+        recycler.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            @Override
+            public void onChildViewAttachedToWindow(View view) {
+                typeList = getPresenter().loadTypeData(getApplicationContext());
+                if (!typeList.isEmpty()) {
+                    mState = Config.SHOW_MENU;
+                }
+                invalidateOptionsMenu();
+            }
 
-        if (typeList.isEmpty())
-            mState = Config.HIDE_MENU;
-        else {
-            mState = Config.SHOW_MENU;
-        }
-        invalidateOptionsMenu();
+            @Override
+            public void onChildViewDetachedFromWindow(View view) {
+                typeList = getPresenter().loadTypeData(getApplicationContext());
+                if (typeList.isEmpty()) {
+                    mState = Config.HIDE_MENU;
+                }
+                invalidateOptionsMenu();
+            }
+        });
 
         recycler.setAdapter(new TypeAdapter(getPresenter(), getApplicationContext(), typeList));
         recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
