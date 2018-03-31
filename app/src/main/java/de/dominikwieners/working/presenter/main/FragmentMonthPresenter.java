@@ -41,7 +41,7 @@ public class FragmentMonthPresenter extends MvpBasePresenter<FragmentMonthView> 
     }
 
     /**
-     * Get Time Format
+     * Get Time Format for start and end hours
      *
      * @param hourOfDay
      * @param minute
@@ -49,5 +49,16 @@ public class FragmentMonthPresenter extends MvpBasePresenter<FragmentMonthView> 
      */
     public String getTimeFormat(int hourOfDay, int minute) {
         return String.format("%02d:%02d Uhr", hourOfDay, minute);
+    }
+
+    /**
+     * Get Time Format for current hours of each item
+     *
+     * @param todaysMin
+     * @return
+     */
+    public String getTodaysHoursFormat(int todaysMin) {
+        double hours = (double) todaysMin / 60;
+        return String.format("%.2f Stunden", hours);
     }
 }

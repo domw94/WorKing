@@ -17,6 +17,9 @@ public class WorkHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.item_working_hour_date)
     TextView tvDate;
 
+    @BindView(R.id.item_working_hour_hours)
+    TextView tvHours;
+
     @BindView(R.id.item_working_hour_type)
     TextView tvType;
 
@@ -33,6 +36,10 @@ public class WorkHolder extends RecyclerView.ViewHolder {
 
     public TextView getTvDate() {
         return tvDate;
+    }
+
+    public TextView getTvHours() {
+        return tvHours;
     }
 
     public TextView getTvType() {

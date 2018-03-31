@@ -122,10 +122,12 @@ public class WelcomeActivity extends MvpActivity<ActivityWelcomeView, ActivityWe
                 .setOnKeyListener(new DialogInterface.OnKeyListener() {
                     @Override
                     public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+
                         getPresenter().goBackFromDialog(dialog, keyCode);
-                        return true;
+                        return false;
                     }
                 })
+
                 .setPositiveButton(getString(R.string.welcome_dialog_positiv), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

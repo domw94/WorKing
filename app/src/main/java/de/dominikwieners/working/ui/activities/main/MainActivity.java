@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -67,6 +68,12 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
 
     @BindView(R.id.main_fabe_timer)
     FloatingActionButton fabTimer;
+
+    @BindView(R.id.main_month_bottom_bar)
+    ConstraintLayout monthBottomBar;
+
+    @BindView(R.id.main_total_label)
+    TextView tvTotal;
 
     @BindView(R.id.main_hours)
     TextView tvhours;
@@ -173,6 +180,14 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
 
         tabLayout.setupWithViewPager(viewPager);
         types = getPresenter().loadTypeData(this);
+        monthBottomBar.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                System.out.println("Bla");
+                return true;
+            }
+        });
     }
 
     @NonNull
@@ -222,6 +237,7 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
         menu.findItem(R.id.main_menu_year_item).setTitle(Integer.toString(getPresenter().getSelectedYear()));
         return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

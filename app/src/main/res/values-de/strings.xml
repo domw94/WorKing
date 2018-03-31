@@ -47,9 +47,13 @@
     <string name="timer_bu_save">Speichern</string>
     <string name="timer_save_dialog_cancle">Abbrechen</string>
     <string name="timer_save_dialog_save">Speichern</string>
-    <string name="timer_save_dialog_info">Bitte wähle einen Arbeitstypen aus, um zu speichern:</string>
+    <string name="time_save_dialog_info_title">Zeit Speichern</string>
+    <string name="time_save_dialog_info_title_day">Der Tag ist vorbei!</string>
+    <string name="timer_save_dialog_info_content">Bitte wähle einen Arbeitstypen aus, um zu speichern:</string>
     <string name="timer_notification_head">Der Timer ist aktiv</string>
-    <string name="timer_notification_content">Klicke hier um zurück zum Timer zu kommen</string>
+    <string name="timer_notification_content">Klicke hier um zurück zum Timer zu gelangen</string>
+    <string name="timer_notification_day_head">Der Tag ist vorbei!</string>
+    <string name="timer_notification_day_content">Klicke hier um zurück zum Timer zu gelangen</string>
     <string name="timer_text_placeholder">00:00:00</string>
     <string name="timer_text_minute_error">Es kann erst nach %d min hinzugefügt werden</string>
     <string name="about_item">Über</string>
@@ -60,5 +64,6 @@
     <string name="app_settings">Einstellung</string>
     <string name="main_fab_timer_lable">Timer</string>
     <string name="main_fab_new_entry">Neuer Eintrag</string>
+
 
 </resources>

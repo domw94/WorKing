@@ -112,7 +112,7 @@ public class AddWorkingActivity extends MvpActivity<ActivityAddWorkingView, Acti
         etUntil.setFocusable(false);
         etUntil.setFocusableInTouchMode(false);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, getPresenter().getTypeArray(getApplicationContext()));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getPresenter().getTypeArray(getApplicationContext()));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spType.setAdapter(adapter);
     }

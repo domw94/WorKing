@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="about_libraries_card">@color/colorPrimary</item>
     </style>
 
@@ -32,10 +31,5 @@
     <style name="WkButtonTransparent" parent="Widget.AppCompat.Button">
         <item name="android:background">@android:color/transparent</item>
     </style>
-
-    <style name="WkSpinnerItem" parent="android:Widget.TextView.SpinnerItem">
-        <item name="android:background">@android:color/white</item>
-    </style>
-
 
 </resources>

@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:gravity="top"
+        android:textColor="@android:color/tab_indicator_text"
         android:hint="@string/welcome_dialog_hint"
         android:inputType="textCapSentences|textMultiLine"
         android:lines="4"

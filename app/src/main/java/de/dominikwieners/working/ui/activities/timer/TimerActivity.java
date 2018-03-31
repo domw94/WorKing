@@ -91,23 +91,25 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
     @Override
     protected void onStart() {
         super.onStart();
-        super.onStart();
         if (Log.isLoggable(TAG, Log.VERBOSE)) {
             Log.v(TAG, "Starting and binding service");
         }
         Intent i = new Intent(this, TimerService.class);
         startService(i);
         bindService(i, mConnection, 0);
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        updateUIStopRun();
+        updateUIStart();
         if (serviceBound) {
             // If a timer is active, foreground the service, otherwise kill the service
             if (timerService.isTimerRunning()) {
                 timerService.foreground();
+            } else if (timerService.isEndOfDay()) {
+                // Do nothing if time not saved
             } else {
                 stopService(new Intent(this, TimerService.class));
             }
@@ -130,7 +132,9 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
             timerService.background();
             // Update the UI if the service is already running the timer
             if (timerService.isTimerRunning()) {
-                updateUIStartRun();
+                updateUISave();
+            } else if (!timerService.isTimerRunning() && timerService.isEndOfDay()) {
+                updateUIEndOfDay();
             }
         }
 
@@ -145,13 +149,38 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
 
     @OnClick(R.id.timer_bu_start_stop_resume)
     public void onStartTimerAndStop() {
-        if (serviceBound && !timerService.isTimerRunning()) {
+        if (serviceBound && !timerService.isTimerRunning() && timerService.isEndOfDay()) {
+            String[] typeArray = getPresenter().getTypeArray(this);
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(TimerActivity.this);
+            mBuilder.setSingleChoiceItems(typeArray, 0, null);
+            mBuilder.setTitle(getResources().getString(R.string.timer_save_dialog_info_content));
+            mBuilder.setPositiveButton(R.string.timer_save_dialog_save, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ListView lv = ((AlertDialog) dialog).getListView();
+                    String workingType = lv.getAdapter().getItem(lv.getCheckedItemPosition()).toString();
+                    Work work = new Work(workingType, timerService.getStartDayOfWeek(), timerService.getStartDay(), timerService.getStartMonth(), timerService.getStartYear(), timerService.getStartHour(), timerService.getStartMinute(), timerService.getEndHour(), timerService.getEndMinute(), timerService.getMinutes());
+                    presenter.insertWorkData(getApplicationContext(), work);
+                    navigator.showMainActivityWithPositionAndYear(getActivity(), timerService.getStartMonth(), timerService.getStartYear());
+                    timerService.setEndOfDay(false);
+                    Toasty.success(getApplicationContext(), getString(R.string.add_working_bu_save_succes_message), Toast.LENGTH_LONG, false).show();
+                }
+            });
+            mBuilder.setNegativeButton(R.string.timer_save_dialog_cancle, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            mBuilder.show();
+
+        } else if (serviceBound && !timerService.isTimerRunning() && !timerService.isEndOfDay()) {
             if (Log.isLoggable(TAG, Log.VERBOSE)) {
                 Log.v(TAG, "Starting timer");
             }
             timerService.startTimer();
-            updateUIStartRun();
-        } else if (serviceBound && timerService.isTimerRunning()) {
+            updateUISave();
+        } else if (serviceBound && timerService.isTimerRunning() && !timerService.isEndOfDay()) {
             if (Log.isLoggable(TAG, Log.VERBOSE)) {
                 Log.v(TAG, "Stopping timer");
             }
@@ -161,7 +190,7 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
                 String[] typeArray = getPresenter().getTypeArray(this);
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(TimerActivity.this);
                 mBuilder.setSingleChoiceItems(typeArray, 0, null);
-                mBuilder.setTitle(R.string.timer_save_dialog_info);
+                mBuilder.setTitle(getString(R.string.timer_save_dialog_info_content));
                 mBuilder.setPositiveButton(R.string.timer_save_dialog_save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -202,7 +231,7 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
         }
         timerService.resetTimer();
         tvTimer.setText(R.string.timer_text_placeholder);
-        tvTimer.setBackground(getResources().getDrawable(R.drawable.gray_circle));
+        tvTimer.setBackground(getResources().getDrawable(R.drawable.circle_gray));
     }
 
 
@@ -230,24 +259,34 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
     /**
      * Updates the UI when a run starts
      */
-    private void updateUIStartRun() {
+    private void updateUISave() {
         mUpdateTimeHandler.sendEmptyMessage(MSG_UPDATE_TIME);
         buStartStop.setText(getString(R.string.timer_bu_save));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             buStartStop.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorTimerSaveGreen));
         }
-        tvTimer.setBackground(getResources().getDrawable(R.drawable.green_circle));
+        tvTimer.setBackground(getResources().getDrawable(R.drawable.circle_green));
     }
 
     /**
      * Updates the UI when a run stops
      */
-    private void updateUIStopRun() {
+    private void updateUIStart() {
         mUpdateTimeHandler.removeMessages(MSG_UPDATE_TIME);
         buStartStop.setText(getString(R.string.timer_bu_start));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             buStartStop.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorAccent));
         }
+    }
+
+
+    private void updateUIEndOfDay() {
+        buStartStop.setText("End of day");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            buStartStop.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorErrorRed));
+        }
+        tvTimer.setBackground(getResources().getDrawable(R.drawable.circle_red));
+        tvTimer.setText(timerService.elapsedTime());
     }
 
     /**
@@ -259,9 +298,13 @@ public class TimerActivity extends MvpActivity<ActivityTimerView, ActivityTimerP
                 @Override
                 public void run() {
                     tvTimer.setText(timerService.elapsedTime());
+                    if (timerService.isEndOfDay()) {
+                        updateUIEndOfDay();
+                    }
                 }
             });
         }
+
     }
 
 }

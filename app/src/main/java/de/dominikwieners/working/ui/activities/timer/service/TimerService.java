@@ -5,16 +5,12 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -23,10 +19,9 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import de.dominikwieners.working.Config;
 import de.dominikwieners.working.R;
-import de.dominikwieners.working.ui.activities.main.MainActivity;
 import de.dominikwieners.working.ui.activities.timer.TimerActivity;
-import es.dmoral.toasty.Toasty;
 
 /**
  * Created by dominikwieners on 20.03.18.
@@ -59,6 +54,16 @@ public class TimerService extends Service {
     // Is the service tracking time?
     private boolean isTimerRunning;
 
+    private boolean isEndOfDay;
+
+    public boolean isEndOfDay() {
+        return isEndOfDay;
+    }
+
+    public void setEndOfDay(boolean endOfDay) {
+        isEndOfDay = endOfDay;
+    }
+
     // Foreground notification id
     private static final int NOTIFICATION_ID = 1;
 
@@ -68,7 +73,7 @@ public class TimerService extends Service {
     /**
      * Set all current time data
      */
-    private void getCurrentDateTime() {
+    private void setStartDateTime() {
         Calendar c = Calendar.getInstance(TimeZone.getDefault());
         startYear = c.get(Calendar.YEAR);
         startMonth = c.get(Calendar.MONTH);
@@ -77,6 +82,7 @@ public class TimerService extends Service {
         startMinute = c.get(Calendar.MINUTE);
         startDayOfWeek = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
     }
+
 
     public class RunServiceBinder extends Binder {
         public TimerService getService() {
@@ -123,18 +129,26 @@ public class TimerService extends Service {
         if (!isTimerRunning) {
             timer = new Timer();
             if (!isSetCurrentDateTimer) {
-                getCurrentDateTime();
+                setStartDateTime();
             }
             isSetCurrentDateTimer = true;
             lastTimestamp = new Date().getTime() / 1000;
-            timer.schedule(new TimerTask() {
+            timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
                     long now = new Date().getTime() / 1000;
                     secondsElapsed += now - lastTimestamp;
                     lastTimestamp = now;
+                    System.out.println(String.format("%d:%d:%d", getCurrentHour(), getCurrentMinute(), getCurrentSecond()));
+                    if (getCurrentHour() == Config.TIMER_DAY_LIMIT_HOURS &&
+                            getCurrentMinute() == Config.TIMER_DAY_LIMIT_MINUTES &&
+                            getCurrentSecond() == Config.TIMER_DAY_LIMIT_SECONDS && !isEndOfDay()) {
+                        setEndOfDay(true);
+                        stopTimer();
+                        foreground();
+                    }
                 }
-            }, 0, 1000);
+            }, 1000, 1000);
             isTimerRunning = true;
         } else {
             Log.e(TAG, "startTimer request for an already running timer");
@@ -155,6 +169,7 @@ public class TimerService extends Service {
         }
     }
 
+
     /**
      * Resume the timer
      */
@@ -162,6 +177,7 @@ public class TimerService extends Service {
         if (timer != null) {
             timer.cancel();
         }
+        setEndOfDay(false);
         isTimerRunning = false;
         secondsElapsed = 0;
     }
@@ -195,6 +211,33 @@ public class TimerService extends Service {
     public int getMinutes() {
         return minutes;
     }
+
+    /**
+     * Get hour from timer
+     *
+     * @return
+     */
+    public int getHours() {
+        return hours;
+    }
+
+    public int getCurrentSecond() {
+        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+        return c.get(Calendar.SECOND);
+    }
+
+    public int getCurrentMinute() {
+        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+        return c.get(Calendar.MINUTE);
+    }
+
+    public int getCurrentHour() {
+        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+        return c.get(Calendar.HOUR_OF_DAY);
+    }
+
+
+
 
 
     public int getStartYear() {
@@ -232,7 +275,11 @@ public class TimerService extends Service {
      * Place the service into the foreground
      */
     public void foreground() {
-        startForeground(NOTIFICATION_ID, createNotification());
+        if (!isEndOfDay()) {
+            startForeground(NOTIFICATION_ID, createNotification());
+        } else {
+            startForeground(NOTIFICATION_ID, createDayEndNotification());
+        }
     }
 
     /**
@@ -249,53 +296,89 @@ public class TimerService extends Service {
      */
     private Notification createNotification() {
 
-        NotificationManager manager;
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder mBuilder;
+        // The id of the channel.
+        String id = "wk_channel_01";
 
-        mBuilder = new NotificationCompat.Builder(this.getApplicationContext(), "notify_001");
+        // The user-visible name of the channel.
+        CharSequence name = "Notification in Background";
+
+        // The user-visible description of the channel.
+        String description = "Shows Notification in Background for running Timer";
+
+        int importance = NotificationManager.IMPORTANCE_LOW;
+
+        NotificationChannel mChannel = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            mChannel = new NotificationChannel(id, name, importance);
+            // Configure the notification channel.
+            mChannel.setDescription(description);
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
 
         Intent ii = new Intent(this.getApplicationContext(), TimerActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, ii, 0);
 
-        mBuilder.setSmallIcon(R.drawable.ic_notification)
+        NotificationCompat.Builder mBuilderTimer;
+        mBuilderTimer = new NotificationCompat.Builder(this, "my_channel_01")
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(getResources().getString(R.string.timer_notification_head))
                 .setContentText(getResources().getString(R.string.timer_notification_content))
                 .setColor(getResources().getColor(R.color.colorTimerNotification))
                 .setColorized(true)
                 .setContentIntent(pendingIntent);
 
-
-        manager =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        return mBuilderTimer.build();
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("notify_001",
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_LOW);
-            manager.createNotificationChannel(channel);
+    }
+
+    private Notification createDayEndNotification() {
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        // The id of the channel.
+        String id = "wk_channel_02";
+
+        // The user-visible name of the channel.
+        CharSequence name = "Day Notification";
+
+        // The user-visible description of the channel.
+        String description = "Shows Notification for ending of days";
+
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+
+        NotificationChannel mChannel = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            mChannel = new NotificationChannel(id, name, importance);
+            // Configure the notification channel.
+            mChannel.setDescription(description);
+
+            mChannel.enableLights(true);
+            // Sets the notification light color for notifications posted to this
+            // channel, if the device supports this feature.
+            mChannel.setLightColor(R.color.colorErrorRed);
+            mChannel.enableVibration(true);
+
+            mNotificationManager.createNotificationChannel(mChannel);
         }
+
+        Intent ii = new Intent(this.getApplicationContext(), TimerActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, ii, 0);
+
+        NotificationCompat.Builder mBuilder;
+        mBuilder = new NotificationCompat.Builder(this, id)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(getResources().getString(R.string.timer_notification_day_head))
+                .setContentText(getResources().getString(R.string.timer_notification_day_content))
+                .setColor(getResources().getColor(R.color.colorErrorRed))
+                .setColorized(true)
+                .setContentIntent(pendingIntent);
 
         return mBuilder.build();
 
-
-
-
-/*
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setContentTitle("Timer Active")
-                .setContentText("Tap to return to the timer")
-                .setSmallIcon(R.mipmap.ic_launcher);
-
-        Intent resultIntent = new Intent(this, TimerActivity.class);
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(this, 0, resultIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(resultPendingIntent);
-
-        return builder.build();*/
     }
+
 }
 
 

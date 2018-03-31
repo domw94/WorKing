@@ -45,6 +45,7 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkHolder> {
     public void onBindViewHolder(final WorkHolder holder, int position) {
         final Work work = typeList.get(position);
         holder.getTvDate().setText(presenter.getDateFromatWidthDay(work.getDayOfWeek(), work.getDay(), work.getMonth(), work.getYear()));
+        holder.getTvHours().setText(presenter.getTodaysHoursFormat(work.getTodaysMin()));
         holder.getTvType().setText(work.getWorkType());
         holder.getTvBegin().setText(presenter.getTimeFormat(work.getStartHour(), work.getStartMin()));
         holder.getTvEnd().setText(presenter.getTimeFormat(work.getEndHour(), work.getEndMin()));
