@@ -181,17 +181,8 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
             public void onPageScrollStateChanged(int state) {
             }
         });
-
         tabLayout.setupWithViewPager(viewPager);
         types = getPresenter().loadTypeData(this);
-        monthBottomBar.setOnLongClickListener(new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View v) {
-                System.out.println("Bla");
-                return true;
-            }
-        });
     }
 
     @NonNull
@@ -251,7 +242,7 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.main_menu_month_item:
-                navigator.showMonthDetailActivity(this, getPresenter().getCurrentYear(), getPresenter().getCurrentPagerPosition());
+                navigator.showMonthDetailActivity(this, getPresenter().getSelectedYear(), getPresenter().getCurrentPagerPosition());
                 break;
             case R.id.main_menu_delete_year_item:
                 AlertDialog.Builder builderJ = new AlertDialog.Builder(this);

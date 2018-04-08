@@ -28,4 +28,39 @@ public class MonthDetailPresenter extends MvpBasePresenter<MonthDetailView> {
                 .getWorkDao()
                 .loadDataByMonth(year, month);
     }
+
+    /**
+     * Load all existing work types by month and year
+     *
+     * @param context
+     * @param year
+     * @param month
+     * @return
+     */
+    public List<String> loadWorkTypes(Context context, int year, int month) {
+        return WorkingDatabase
+                .getInstance(context)
+                .getWorkDao()
+                .loadWorkingTypes(year, month);
+    }
+
+    /**
+     * Get Sum of Min by type
+     *
+     * @param context
+     * @param type
+     * @param year
+     * @param month
+     * @return
+     */
+    public int getSumOfWorkingByType(Context context, String type, int year, int month) {
+        int sum = 0;
+        List<Work> list = loadWorkDataByMonth(context, year, month);
+        for (Work work : list) {
+            if (work.getWorkType().equals(type)) {
+                sum += work.getTodaysMin();
+            }
+        }
+        return sum;
+    }
 }

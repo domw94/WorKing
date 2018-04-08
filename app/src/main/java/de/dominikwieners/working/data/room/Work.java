@@ -44,7 +44,7 @@ public class Work implements Serializable {
     @ColumnInfo(name = "end_Min")
     private int endMin;
 
-    @ColumnInfo(name = "todays_hours")
+    @ColumnInfo(name = "todays_min")
     private int todaysMin;
 
     public Work(String workType, String dayOfWeek, int day, int month, int year, int startHour, int startMin, int endHour, int endMin, int todaysMin) {

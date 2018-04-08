@@ -4,9 +4,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -15,6 +18,7 @@ import butterknife.ButterKnife;
 import de.dominikwieners.working.Config;
 import de.dominikwieners.working.Navigator;
 import de.dominikwieners.working.R;
+import de.dominikwieners.working.data.room.Work;
 import de.dominikwieners.working.di.wkApplication;
 import de.dominikwieners.working.presenter.monthDetail.MonthDetailPresenter;
 import de.dominikwieners.working.ui.view.monthDetail.MonthDetailView;
@@ -44,6 +48,11 @@ public class MonthDetailActivity extends MvpActivity<MonthDetailView, MonthDetai
         getSupportActionBar().setTitle(String.format(getString(R.string.app_name_month_detail), months[month], year));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((wkApplication) getApplication()).getComponent().inject(this);
+        List<String> list = getPresenter().loadWorkTypes(this, year, month);
+        for (String type : list) {
+            Log.d(MonthDetailActivity.class.getSimpleName(), type + " " + getPresenter().getSumOfWorkingByType(this, type, year, month));
+        }
+
     }
 
     @NonNull
@@ -55,7 +64,7 @@ public class MonthDetailActivity extends MvpActivity<MonthDetailView, MonthDetai
 
     @Override
     public void onBackPressed() {
-        navigator.showMainActivityWithPosition(this, month);
+        navigator.showMainActivityWithPositionAndYear(this, month, year);
         super.onBackPressed();
     }
 
@@ -63,7 +72,7 @@ public class MonthDetailActivity extends MvpActivity<MonthDetailView, MonthDetai
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                navigator.showMainActivityWithPosition(this, month);
+                navigator.showMainActivityWithPositionAndYear(this, month, year);
                 return true;
         }
         return super.onOptionsItemSelected(item);
