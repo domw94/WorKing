@@ -50,9 +50,10 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkHolder> {
         holder.getTvBegin().setText(presenter.getTimeFormat(work.getStartHour(), work.getStartMin()));
         holder.getTvEnd().setText(presenter.getTimeFormat(work.getEndHour(), work.getEndMin()));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(holder.itemView.getContext());
                 alert.setTitle(R.string.main_delete_entry_dialog_title);
                 alert.setMessage(R.string.main_delete_entry_dialog_content);
@@ -71,6 +72,7 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkHolder> {
                     }
                 });
                 alert.show();
+                return true;
             }
         });
     }

@@ -27,7 +27,8 @@
 
         <activity android:name=".ui.activities.about.AboutActivity" />
         <activity android:name=".ui.activities.libs.LibsActivity" />
-        <activity android:name=".ui.activities.settings.SettingsActivity"></activity>
+        <activity android:name=".ui.activities.settings.SettingsActivity" />
+        <activity android:name=".ui.activities.monthDetail.MonthDetailActivity"></activity>
     </application>
 
 </manifest>

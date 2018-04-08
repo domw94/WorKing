@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 import de.dominikwieners.working.ui.activities.about.AboutActivity;
 import de.dominikwieners.working.ui.activities.libs.LibsActivity;
 import de.dominikwieners.working.ui.activities.main.MainActivity;
+import de.dominikwieners.working.ui.activities.monthDetail.MonthDetailActivity;
 import de.dominikwieners.working.ui.activities.settings.SettingsActivity;
 import de.dominikwieners.working.ui.activities.timer.TimerActivity;
 import de.dominikwieners.working.ui.activities.welcome.WelcomeActivity;
@@ -136,6 +137,17 @@ public class Navigator {
     /////////////////////////////////////////////////
     public void showSettingsActivity(Activity activity) {
         Intent intent = new Intent(activity, SettingsActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    //////////////////////////////////////////////////
+    // Show MonthDetailActivity
+    /////////////////////////////////////////////////
+    public void showMonthDetailActivity(Activity activity, int year, int month) {
+        Intent intent = new Intent(activity, MonthDetailActivity.class);
+        intent.putExtra(Config.SELECTED_YEAR, year);
+        intent.putExtra(Config.CURRENT_PAGER_POS, month);
         activity.startActivity(intent);
         activity.finish();
     }

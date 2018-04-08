@@ -1,5 +1,8 @@
 package de.dominikwieners.working.ui.activities.main;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
@@ -153,6 +156,7 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 tvhours.setText(getPresenter().getSumOfHoursOfMonthInHour(getApplicationContext(), presenter.getSelectedYear(), position));
+                invalidateOptionsMenu();
                 final int pos = position;
                 ((MonthFragment) mainPagerAdapter.getItem(position)).getRecycler().addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
                     @Override
@@ -235,32 +239,69 @@ public class MainActivity extends MvpActivity<ActivityMainView, ActivityMainPres
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         menu.findItem(R.id.main_menu_year_item).setTitle(Integer.toString(getPresenter().getSelectedYear()));
+        menu.findItem(R.id.main_menu_month_item).setTitle(String.format(getString(R.string.main_menu_month_item), months[getPresenter().getCurrentPagerPosition()]));
         return super.onCreateOptionsMenu(menu);
     }
 
+    public Activity getActivity() {
+        return this;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.main_menu_month_item:
+                navigator.showMonthDetailActivity(this, getPresenter().getCurrentYear(), getPresenter().getCurrentPagerPosition());
+                break;
             case R.id.main_menu_delete_year_item:
-                if (!yearList.isEmpty()) {
-                    getPresenter().deleteWorkByYear(getPresenter().getSelectedYear(), this);
-                    navigator.showMainActivityWithYear(this, getPresenter().getCurrentYear());
-                    Toasty.success(this, String.format(getString(R.string.main_year_delete_message), Integer.toString(getPresenter().getSelectedYear())), Toast.LENGTH_LONG, false).show();
-                } else {
-                    Toasty.error(this, getString(R.string.main_year_deleted_message_error), Toast.LENGTH_LONG, false).show();
-                }
+                AlertDialog.Builder builderJ = new AlertDialog.Builder(this);
+                builderJ.setTitle(R.string.dialog_delete_year_title);
+                builderJ.setMessage(String.format(getString(R.string.dialog_delete_year_info), getPresenter().getSelectedYear()));
+                builderJ.setPositiveButton(R.string.dialog_delete_positiv, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!yearList.isEmpty()) {
+                            getPresenter().deleteWorkByYear(getPresenter().getSelectedYear(), getApplicationContext());
+                            navigator.showMainActivityWithYear(getActivity(), getPresenter().getCurrentYear());
+                            Toasty.success(getApplicationContext(), String.format(getString(R.string.main_year_delete_message), Integer.toString(getPresenter().getSelectedYear())), Toast.LENGTH_LONG, false).show();
+                        } else {
+                            Toasty.error(getApplicationContext(), getString(R.string.main_year_deleted_message_error), Toast.LENGTH_LONG, false).show();
+                        }
+                    }
+                });
+                builderJ.setNegativeButton(R.string.dialog_delete_negativ, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builderJ.show();
                 break;
             case R.id.main_menu_delete_month_item:
-                List<Work> list = presenter.loadWorkDataByMonth(this, getPresenter().getSelectedYear(), getPresenter().getCurrentPagerPosition());
-                if (!list.isEmpty()) {
-                    getPresenter().deleteWorkByMonth(getPresenter().getSelectedYear(), getPresenter().getCurrentPagerPosition(), this);
-                    navigator.showMainActivityWithPositionAndYear(this, getPresenter().getCurrentPagerPosition(), getPresenter().getSelectedYear());
+                AlertDialog.Builder builderM = new AlertDialog.Builder(this);
+                builderM.setTitle(R.string.dialog_delete_month_title);
+                builderM.setMessage(String.format(getString(R.string.dialog_delete_month_info), months[getPresenter().getCurrentPagerPosition()]));
+                builderM.setPositiveButton(R.string.dialog_delete_positiv, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        List<Work> list = presenter.loadWorkDataByMonth(getApplicationContext(), getPresenter().getSelectedYear(), getPresenter().getCurrentPagerPosition());
+                        if (!list.isEmpty()) {
+                            getPresenter().deleteWorkByMonth(getPresenter().getSelectedYear(), getPresenter().getCurrentPagerPosition(), getApplicationContext());
+                            navigator.showMainActivityWithPositionAndYear(getActivity(), getPresenter().getCurrentPagerPosition(), getPresenter().getSelectedYear());
+                            Toasty.success(getApplicationContext(), String.format(getString(R.string.main_month_delete_message), months[getPresenter().getCurrentPagerPosition()]), Toast.LENGTH_LONG, false).show();
+                        } else {
+                            Toasty.error(getApplicationContext(), String.format(getString(R.string.main_month_deleted_message_error), months[getPresenter().getCurrentPagerPosition()]), Toast.LENGTH_LONG, false).show();
+                        }
+                    }
+                });
+                builderM.setNegativeButton(R.string.dialog_delete_negativ, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builderM.show();
 
-                    Toasty.success(this, String.format(getString(R.string.main_month_delete_message), months[getPresenter().getCurrentPagerPosition()]), Toast.LENGTH_LONG, false).show();
-                } else {
-                    Toasty.error(this, String.format(getString(R.string.main_month_deleted_message_error), months[getPresenter().getCurrentPagerPosition()]), Toast.LENGTH_LONG, false).show();
-                }
                 break;
         }
         return super.onOptionsItemSelected(item);

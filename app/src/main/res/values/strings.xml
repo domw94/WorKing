@@ -3,6 +3,7 @@
     <string name="app_name">WorKing</string>
     <string name="app_welcome">Welcome</string>
     <string name="app_timer">Timer</string>
+    <string name="app_name_month_detail">%s %d</string>
     <string name="open_navigation_drawer">open drawer</string>
     <string name="close_navigation_drawer">close drawer</string>
     <string name="welcome_option_menu_next">next</string>
@@ -67,6 +68,11 @@
     <string name="app_settings">Settings</string>
     <string name="main_fab_timer_lable">Timer</string>
     <string name="main_fab_new_entry">New entry</string>
-
-
+    <string name="dialog_delete_year_info">Do your really want to delete year %d?</string>
+    <string name="dialog_delete_year_title">Delete Year</string>
+    <string name="dialog_delete_positiv">Yes</string>
+    <string name="dialog_delete_negativ">No</string>
+    <string name="dialog_delete_month_title">Delete Month</string>
+    <string name="dialog_delete_month_info">Do you really want to delete %1$s?</string>
+    <string name="main_menu_month_item">%1$s details</string>
 </resources>

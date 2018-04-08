@@ -7,6 +7,10 @@
         android:id="@+id/main_menu_year_item"
         android:title="2018"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/main_menu_month_item"
+        android:title="@string/main_menu_month_item" />
     <item
         android:id="@+id/main_menu_delete_year_item"
         android:title="@string/main_menu_delete_year" />

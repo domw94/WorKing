@@ -200,7 +200,7 @@ public class TimerService extends Service {
         seconds = (int) secondsElapsed % 60;
         minutes = (int) secondsElapsed / 60;
         hours = minutes / 60;
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        return String.format("%02d:%02d:%02d", hours, (minutes % 60), seconds);
     }
 
     /**
