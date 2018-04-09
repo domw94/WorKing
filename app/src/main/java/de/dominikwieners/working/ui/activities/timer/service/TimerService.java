@@ -321,7 +321,7 @@ public class TimerService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, ii, 0);
 
         NotificationCompat.Builder mBuilderTimer;
-        mBuilderTimer = new NotificationCompat.Builder(this, "my_channel_01")
+        mBuilderTimer = new NotificationCompat.Builder(this, "wk_channel_01")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(getResources().getString(R.string.timer_notification_head))
                 .setContentText(getResources().getString(R.string.timer_notification_content))

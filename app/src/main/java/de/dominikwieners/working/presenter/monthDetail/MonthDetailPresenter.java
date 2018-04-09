@@ -63,4 +63,9 @@ public class MonthDetailPresenter extends MvpBasePresenter<MonthDetailView> {
         }
         return sum;
     }
+
+    public double getSumOfWorkingByTypeInHours(Context context, String type, int year, int month) {
+        int min = getSumOfWorkingByType(context, type, year, month);
+        return (double) min / 60;
+    }
 }

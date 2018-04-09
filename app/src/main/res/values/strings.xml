@@ -75,4 +75,5 @@
     <string name="dialog_delete_month_title">Delete Month</string>
     <string name="dialog_delete_month_info">Do you really want to delete %1$s?</string>
     <string name="main_menu_month_item">%1$s details</string>
+    <string name="item_month_detail_hour">%.2f h</string>
 </resources>
